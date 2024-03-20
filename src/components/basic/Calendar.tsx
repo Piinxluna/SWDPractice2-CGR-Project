@@ -18,7 +18,7 @@ export default function Component({
 
   for (let day = 1; day <= beforeThisMonth; day++) {
     availability.push(
-      <div className='bg-transpirent text-xs text-center w-5 h-5'></div>
+      <div className='bg-transparent text-xs text-center w-5 h-5'></div>
     )
   }
 
