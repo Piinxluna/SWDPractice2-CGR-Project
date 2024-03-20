@@ -14,5 +14,5 @@ export function getMonthName(month: number) {
     'December',
   ]
 
-  return monthNames[month]
+  return monthNames[month - 1]
 }

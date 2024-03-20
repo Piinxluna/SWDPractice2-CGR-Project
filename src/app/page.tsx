@@ -1,9 +1,12 @@
-import BookingCard from '@/components/basic/card/BookingCard'
+import Carlendar from '@/components/basic/Calendar'
 
 export default function Home() {
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-10'>
-      <BookingCard campground={{name : 'Campground1', province : 'Bangkok', tel : '085-xxx-xxxx', picture : '/img/campgroundSample.jpg'}} site={{siteNumber : 1, zone : 'A'}} date={new Date(Date.now())} id='fuck' />
+    <main className='flex min-h-screen flex-row p-10 gap-10'>
+      <Carlendar month={1} year={2024} unavailableDates={[]}/>
+      <Carlendar month={3} year={2024} unavailableDates={[]}/>
+      <Carlendar month={4} year={2024} unavailableDates={[]}/>
+      <Carlendar month={5} year={2024} unavailableDates={[]}/>
     </main>
   )
 }
