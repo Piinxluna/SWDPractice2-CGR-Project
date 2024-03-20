@@ -34,15 +34,18 @@ export default function Component({
             </div>
 
             {/* Card Detail */}
-            <div className='my-4 flex flex-row flex-wrap space-y-1 text-sm'>
-              <i className='bi bi-signpost-split row-span-2 w-full md:w-1/12'></i>
-              <div className='w-11/12'>
-                <p>Site number : {site.siteNumber}</p>
-                <p>Zone : {site.zone}</p>
+            <div className='my-4 flex flex-col space-y-1 text-sm'>
+              <div className='flex flex-row'>
+                <i className='bi bi-signpost-split w-fill me-3'></i>
+                <div className=''>
+                  <p>Site number : {site.siteNumber}</p>
+                  <p>Zone : {site.zone}</p>
+                </div>
               </div>
-
-              <i className='bi bi-telephone w-full md:w-1/12'></i>
-              <p className='w-11/12'>Tel : {campground.tel}</p>
+              <div className='flex flex-row'>
+                <i className='bi bi-telephone w-fill me-3'></i>
+                <p className=''>Tel : {campground.tel}</p>
+              </div>
             </div>
 
             {/* Booking Date */}
