@@ -3,8 +3,8 @@
 /* btn primary */
 .cgr-btn {
   background-color: #339989;
-  color: #FFFFFF;
-  padding:  10px 50px;
+  color: #ffffff;
+  padding: 10px 50px;
   border-radius: 10px;
   transition-duration: 200ms;
   text-align: center;
@@ -18,7 +18,7 @@
 .cgr-btn-outline {
   background-color: transparent;
   color: #339989;
-  padding:  10px 50px;
+  padding: 10px 50px;
   border: solid 2px;
   border-radius: 10px;
   transition-duration: 200ms;
@@ -27,15 +27,15 @@
 
 .cgr-btn-outline:hover {
   background-color: #339989;
-  color: #FFFFFF;
+  color: #ffffff;
   border: solid 2px #339989;
 }
 
 /* btn red */
 .cgr-btn-red {
-  background-color: #FF6363;
-  color: #FFFFFF;
-  padding:  10px 50px;
+  background-color: #ff6363;
+  color: #ffffff;
+  padding: 10px 50px;
   border-radius: 10px;
   transition-duration: 200ms;
   text-align: center;
@@ -48,8 +48,8 @@
 /* btn gray outline */
 .cgr-btn-outline-gray {
   background-color: transparent;
-  color: #5C5C5C;
-  padding:  10px 50px;
+  color: #5c5c5c;
+  padding: 10px 50px;
   border: solid 2px;
   border-radius: 10px;
   transition-duration: 200ms;
@@ -57,9 +57,9 @@
 }
 
 .cgr-btn-outline-gray:hover {
-  background-color: #5C5C5C;
-  color: #FFFFFF;
-  border: solid 2px #5C5C5C;
+  background-color: #5c5c5c;
+  color: #ffffff;
+  border: solid 2px #5c5c5c;
 }
 
 /* table */
@@ -70,14 +70,14 @@
 
 .cgr-table tr {
   border-style: solid;
-  border-color: #CECECE;
+  border-color: #cecece;
   border-width: 1px 0px 0px 0px;
 }
 
 .cgr-table th {
   background-color: #339989;
-  color: #FFFFFF;
-  font-weight: 600
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .cgr-table td {

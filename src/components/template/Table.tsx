@@ -1,6 +1,6 @@
-export default function Table () {
-  return(
-    <table className="cgr-table">
+export default function Table() {
+  return (
+    <table className='cgr-table'>
       <tr>
         <th>Company</th>
         <th>Contact</th>
