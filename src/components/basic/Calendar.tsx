@@ -1,4 +1,4 @@
-import { getMonthName } from '@/utils/getMonthName'
+import { getMonthName } from '@/utils/dateUtils'
 
 export default function Component({
   month,
@@ -9,14 +9,14 @@ export default function Component({
   year: number
   unavailableDates: number[]
 }) {
-  const date = new Date(year, month, 0)
-  const totalDay = date.getDate()
+  month -= 1
+  const totalDay = new Date(year, month + 1, 0).getDate()
   const monthName = getMonthName(month)
-  const beforeThisMonth = new Date(year, month-1, 1).getDay() 
+  const beforeThisMonth = new Date(year, month, 1).getDay()
 
   let availability = []
 
-  for(let day = 1; day <= beforeThisMonth; day++){
+  for (let day = 1; day <= beforeThisMonth; day++) {
     availability.push(
       <div className='bg-transpirent text-xs text-center w-5 h-5'></div>
     )
