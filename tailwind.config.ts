@@ -17,6 +17,7 @@ const config: Config = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
+      white: '#FFFFFF',
       'cgr-white': '#FFFAFB',
       'cgr-light-green': '#7DE2D1',
       'cgr-dark-green': '#339989',
