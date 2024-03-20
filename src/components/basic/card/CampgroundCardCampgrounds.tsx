@@ -2,21 +2,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import Card from '@/components/basic/card/Card'
-import { getMonthName } from '@/utils/dateUtils'
+import Tag from '@/components/basic/Tag'
 
-export default function Component({
+export default function CampgroundCardCampgrounds({
   campground,
-  site,
-  date,
-  id,
 }: {
-  campground: { name: string; province: string; tel: string; picture: string }
-  site: { siteNumber: number; zone: string }
-  date: Date
-  id: string
+  campground: CampgroundCard
 }) {
   return (
-    <Link href={`/bookings/${id}`}>
+    <Link href={`/campgrounds/${campground.id}`}>
       <Card>
         <div className='p-0 flex flex-row'>
           <Image
@@ -25,8 +19,8 @@ export default function Component({
             width={0}
             height={0}
             sizes='100vw'
-            className='object-cover w-1/4 rounded-l-xl shadow-none'></Image>
-          <div className='w-3/4 p-6'>
+            className='object-cover w-2/5 rounded-l-xl shadow-none'></Image>
+          <div className='w-3/5 p-6'>
             {/* Card Title */}
             <div className='mb-4'>
               <p className='text-2xl font-bold text-cgr-black'>
@@ -39,10 +33,7 @@ export default function Component({
             <div className='my-4 flex flex-col space-y-1 text-sm'>
               <div className='flex flex-row'>
                 <i className='bi bi-signpost-split w-fill me-3'></i>
-                <div className=''>
-                  <p>Site number : {site.siteNumber}</p>
-                  <p>Zone : {site.zone}</p>
-                </div>
+                <p>Site number : {campground.amount}</p>
               </div>
               <div className='flex flex-row'>
                 <i className='bi bi-telephone w-fill me-3'></i>
@@ -51,9 +42,10 @@ export default function Component({
             </div>
 
             {/* Booking Date */}
-            <div className='mt-3 text-cgr-dark-green font-bold text-lg'>
-              Booking date : {date.getDate()} {getMonthName(date.getMonth())}{' '}
-              {date.getFullYear()}
+            <div className='flex flex-row flex-wrap space-x-2'>
+              {campground.facilities.map((data) => (
+                <Tag size='xs'>{data}</Tag>
+              ))}
             </div>
           </div>
         </div>
