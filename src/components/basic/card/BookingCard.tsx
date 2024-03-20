@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import Card from '@/components/basic/card/Card'
-import { getMonthName } from '@/utils/getMonthName'
+import { getMonthName } from '@/utils/dateUtils'
 
 export default function Component({
   campground,
@@ -29,7 +29,9 @@ export default function Component({
           <div className='w-3/4 p-6'>
             {/* Card Title */}
             <div className='mb-4'>
-              <p className='text-2xl font-bold text-cgr-black'>{campground.name}</p>
+              <p className='text-2xl font-bold text-cgr-black'>
+                {campground.name}
+              </p>
               <p className='text-md font-light'>{campground.province}</p>
             </div>
 
@@ -49,7 +51,7 @@ export default function Component({
             </div>
 
             {/* Booking Date */}
-            <div className='mt-3 text-cgr-dark-green font-bold text-lg'>
+            <div className='mt-3 text-cgr-dark-green font-bold text-md'>
               Booking date : {date.getDate()} {getMonthName(date.getMonth())}{' '}
               {date.getFullYear()}
             </div>
