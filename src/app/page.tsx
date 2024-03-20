@@ -1,3 +1,5 @@
+import Card from '@/components/basic/card/Card'
+import { TextField } from '@mui/material'
 import Image from 'next/image'
 
 export default function Home() {
