@@ -14,5 +14,19 @@ export function getMonthName(month: number) {
     'December',
   ]
 
-  return monthNames[month - 1]
+  return monthNames[month]
+}
+
+export function getDayName(day: number) {
+  const dayNames = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ]
+
+  return dayNames[day]
 }
