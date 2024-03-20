@@ -61,3 +61,25 @@
   color: #FFFFFF;
   border: solid 2px #5C5C5C;
 }
+
+/* table */
+.cgr-table {
+  text-align: center;
+  width: 100%;
+}
+
+.cgr-table tr {
+  border-style: solid;
+  border-color: #CECECE;
+  border-width: 1px 0px 0px 0px;
+}
+
+.cgr-table th {
+  background-color: #339989;
+  color: #FFFFFF;
+  font-weight: 600
+}
+
+.cgr-table td {
+  padding: 5px 10px;
+}
