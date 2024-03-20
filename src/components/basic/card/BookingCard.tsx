@@ -27,14 +27,14 @@ export default function Component({
             sizes='100vw'
             className='object-cover w-1/4 rounded-l-xl shadow-none'></Image>
           <div className='w-3/4 p-6'>
-            <div>
-              <p className='text-2xl font-bold text-cgr-black'>
-                {campground.name}
-              </p>
-              <p className='text-sm font-light'>{campground.province}</p>
+            {/* Card Title */}
+            <div className='mb-4'>
+              <p className='text-2xl font-bold text-cgr-black'>{campground.name}</p>
+              <p className='text-md font-light'>{campground.province}</p>
             </div>
 
-            <div className='mt-3 flex flex-row flex-wrap space-y-1'>
+            {/* Card Detail */}
+            <div className='my-4 flex flex-row flex-wrap space-y-1 text-sm'>
               <i className='bi bi-signpost-split row-span-2 w-full md:w-1/12'></i>
               <div className='w-11/12'>
                 <p>Site number : {site.siteNumber}</p>
@@ -45,6 +45,7 @@ export default function Component({
               <p className='w-11/12'>Tel : {campground.tel}</p>
             </div>
 
+            {/* Booking Date */}
             <div className='mt-3 text-cgr-dark-green font-bold text-lg'>
               Booking date : {date.getDate()} {getMonthName(date.getMonth())}{' '}
               {date.getFullYear()}
