@@ -10,7 +10,7 @@ export default function CampgroundCardCampgrounds({
   campground: CampgroundCard
 }) {
   return (
-    <Link href={`/campgrounds/${campground.id}`}>
+    <Link href={`/campgrounds/view/${campground.id}`}>
       <Card>
         <div className='p-0 flex flex-row'>
           <Image

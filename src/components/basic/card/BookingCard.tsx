@@ -16,7 +16,7 @@ export default function Component({
   id: string
 }) {
   return (
-    <Link href={`/bookings/${id}`}>
+    <Link href={`/bookings/view/${id}`}>
       <Card>
         <div className='p-0 flex flex-row'>
           <Image

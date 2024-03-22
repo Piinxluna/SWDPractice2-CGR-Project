@@ -2,7 +2,7 @@ import BookingPanel from '@/components/complex/BookingPanel'
 
 export default function Home() {
   const mockDate = new Date(Date.now())
-  const activeBookings = [
+  const mockBookings = [
     {
       campground: {
         name: 'campground',
@@ -50,9 +50,9 @@ export default function Home() {
   ]
 
   return (
-    <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen px-18'>
-      <div className='flex flex-row flex-wrap justify-start align-items-start space-y-2 mb-8'>
-        <div className='flex flex-row basis-2/5 space-x-3'>
+    <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
+      <div className='flex flex-row flex-wrap justify-start items-baseline space-y-2 mb-8'>
+        <div className='flex flex-row w-fit space-x-3'>
           <input
             type='text'
             className='cgr-search-box placeholder-cgr-dark-green'
@@ -64,16 +64,16 @@ export default function Home() {
             placeholder='Find something...'
           />
         </div>
-        <div className='basis-0 lg:basis-2/5'></div>
-        <button className='cgr-btn basis-1/5'>Book more</button>
+        <div className='grow hidden sm:block'></div>
+        <button className='cgr-btn w-fit'>Book more</button>
       </div>
       <div className='mb-12'>
         <p className='text-3xl font-bold mb-6 z-30'>Incoming Booking</p>
-        <BookingPanel bookings={activeBookings} />
+        <BookingPanel bookings={mockBookings} />
       </div>
       <div>
         <p className='text-3xl font-bold mb-6 z-30'>Achieved Booking</p>
-        <BookingPanel bookings={activeBookings} />
+        <BookingPanel bookings={mockBookings} />
       </div>
     </main>
   )
