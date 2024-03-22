@@ -13,10 +13,10 @@ export default function Banner() {
           priority
         />
       </div>
-      <div className='z-[1] text-white relative ml-24 top-[20%]'>
-        <h1 className='text-7xl font-semibold my-3'>Booking</h1>
-        <h1 className='text-7xl font-semibold my-3'>Campground</h1>
-        <h1 className='text-2xl font-medium my-10'>
+      <div className='z-[1] text-white relative text-center sm:text-left sm:ml-24 top-[20%]'>
+        <h1 className='text-5xl sm:text-7xl font-semibold my-3'>Booking</h1>
+        <h1 className='text-5xl sm:text-7xl font-semibold my-3'>Campground</h1>
+        <h1 className='text-lg sm:text-2xl font-medium my-10 mx-10 sm:mx-0'>
           Book the place where you like and explore the nature now
         </h1>
       </div>
