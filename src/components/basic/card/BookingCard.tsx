@@ -16,7 +16,7 @@ export default function Component({
   id: string
 }) {
   return (
-    <Link href={`/bookings/${id}`}>
+    <Link href={`/bookings/${id}`} className='hover:scale-105 duration-300'>
       <Card>
         <div className='p-0 flex flex-row'>
           <Image

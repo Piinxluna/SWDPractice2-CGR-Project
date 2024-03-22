@@ -62,6 +62,23 @@
   border: solid 2px #5c5c5c;
 }
 
+/* btn white outline */
+.cgr-btn-outline-gray {
+  background-color: transparent;
+  color: #ffffff;
+  padding: 10px 30px;
+  border: solid 2px;
+  border-radius: 15px;
+  transition-duration: 200ms;
+  text-align: center;
+}
+
+.cgr-btn-outline-gray:hover {
+  background-color: #ffffff;
+  color: #247064;
+  border: solid 2px #ffffff;
+}
+
 /* table */
 .cgr-table {
   text-align: center;

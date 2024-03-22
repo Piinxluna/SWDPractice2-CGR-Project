@@ -18,13 +18,6 @@ export default function CGRTextField() {
         defaultValue={'asd'}
         InputProps={{ style: { borderRadius: '10px' } }}
       />
-      <TextField
-        id='outlined-basic'
-        label='Text Field'
-        variant='outlined'
-        defaultValue={'asd'}
-        InputProps={{ style: { borderRadius: '10px' } }}
-      />
       {/* password form */}
       <TextField
         type='password'
