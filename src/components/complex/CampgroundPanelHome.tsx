@@ -22,7 +22,9 @@ export default function CampgroundPanelHome() {
       <CampgroundCardHome campground={campground} />
       <CampgroundCardHome campground={campground} />
       {/* link for view more */}
-      <Link href={'/campgrounds'} className='flex h-full'>
+      <Link
+        href={'/campgrounds'}
+        className='flex h-full hover:scale-105 duration-300'>
         <Card>
           <div className='text-center p-10 h-full content-center grid'>
             <div>
