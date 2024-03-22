@@ -17,7 +17,9 @@ export default function CampgroundCardHome({
   }
 }) {
   return (
-    <Link href={`/campgrounds/${campground.id}`}>
+    <Link
+      href={`/campgrounds/${campground.id}`}
+      className='hover:scale-105 duration-300'>
       <Card>
         <div className='flex flex-col'>
           <Image
@@ -28,7 +30,7 @@ export default function CampgroundCardHome({
             sizes='100vh'
             className='object-cover w-full h-48 rounded-t-xl shadow-none'
           />
-          <div className='px-4 py-3'>
+          <div className='px-6 pt-4 pb-6'>
             {/* title */}
             <p className='text-2xl font-semibold text-cgr-black'>
               {campground.name}
@@ -50,7 +52,6 @@ export default function CampgroundCardHome({
                 <Tag size='sm'>{data}</Tag>
               ))}
             </div>
-            {/*  */}
           </div>
         </div>
       </Card>
