@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Banner() {
   return (
@@ -20,9 +21,11 @@ export default function Banner() {
         </h1>
       </div>
       <div className='z-[1] text-white absolute bottom-10 right-10'>
-        <button className='cgr-btn-outline-gray'>
-          Book Now <i className='bi bi-arrow-right-circle-fill ml-3'></i>
-        </button>
+        <Link href='/bookings/create'>
+          <button className='cgr-btn-outline-gray'>
+            Book Now <i className='bi bi-arrow-right-circle-fill ml-3'></i>
+          </button>
+        </Link>
       </div>
     </div>
   )

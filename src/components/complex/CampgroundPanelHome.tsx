@@ -1,6 +1,5 @@
-import Link from 'next/link'
 import CampgroundCardHome from '../basic/card/CampgroundCardHome'
-import Card from '../basic/card/Card'
+import ViewMoreCampgroundCard from '../basic/card/ViewMoreCampgroundCard'
 
 export default function CampgroundPanelHome() {
   const campground = {
@@ -21,18 +20,7 @@ export default function CampgroundPanelHome() {
       <CampgroundCardHome campground={campground} />
       <CampgroundCardHome campground={campground} />
       <CampgroundCardHome campground={campground} />
-      {/* link for view more */}
-      <Link href={'/campgrounds'} className='flex h-full'>
-        <Card>
-          <div className='text-center p-10 h-full content-center grid'>
-            <div>
-              <i className='bi bi-book-half text-7xl drop-shadow-2xl'></i>
-              <br />
-              <h1 className='text-4xl drop-shadow-2xl'>View More</h1>
-            </div>
-          </div>
-        </Card>
-      </Link>
+      <ViewMoreCampgroundCard />
     </div>
   )
 }
