@@ -20,7 +20,7 @@ export default function Component() {
 
   return (
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
-      <h1 className='text-cgr-black text-4xl font-bold mb-4'>Campground</h1>
+      <h1 className='text-cgr-black text-4xl font-bold mb-4'>Campgrounds</h1>
       <div className='flex flex-row flex-wrap justify-start items-baseline space-y-2 mb-8'>
         <div className='flex flex-row w-fit space-x-3'>
           <input
