@@ -1,6 +1,7 @@
 import Card from '@/components/basic/card/Card'
 import CampgroundDetail from '@/components/complex/CampgroundDetail'
 import Calendar from '@/components/basic/Calendar'
+import Link from 'next/link'
 
 export default function ViewCampgroundSite({
   params,
@@ -63,7 +64,7 @@ export default function ViewCampgroundSite({
   }
 
   return (
-    <main className='px-4 py-14 sm:px-10 md:px-16 lg:px-36 xl:px-60 2xl:px-80'>
+    <main className='px-4 py-14 sm:px-10 md:px-16 lg:px-32 xl:px-48 2xl:px-80'>
       <Card>
         {/* campground detail */}
         <div className='p-10'>
@@ -77,14 +78,20 @@ export default function ViewCampgroundSite({
             </h2>
             <p className='text-lg'>size : {mockdataCampground.sites[1].size}</p>
           </div>
-
-          <CampgroundDetail
-            address={mockdataCampground.address}
-            googleMap={mockdataCampground.googleMap}
-            website={mockdataCampground.website}
-            tel={mockdataCampground.tel}
-            facilities={mockdataCampground.facilities}
-          />
+          <div className='flex flex-wrap justify-between'>
+            <CampgroundDetail
+              address={mockdataCampground.address}
+              googleMap={mockdataCampground.googleMap}
+              website={mockdataCampground.website}
+              tel={mockdataCampground.tel}
+              facilities={mockdataCampground.facilities}
+            />
+            <Link
+              href={`/bookings/create?sid=${params.sid}`}
+              className='right-0 w-full lg:w-fit h-fit self-end mt-5'>
+              <button className='cgr-btn'>Book Now</button>
+            </Link>
+          </div>
         </div>
         {/* site */}
         <div className='px-10 py-4'>
