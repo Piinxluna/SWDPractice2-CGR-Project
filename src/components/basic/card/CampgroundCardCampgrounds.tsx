@@ -44,7 +44,7 @@ export default function CampgroundCardCampgrounds({
             {/* Booking Date */}
             <div className='flex flex-row flex-wrap space-x-2'>
               {campground.facilities.map((data) => (
-                <Tag size='xs'>{data}</Tag>
+                <Tag size='sm'>{data}</Tag>
               ))}
             </div>
           </div>
