@@ -42,7 +42,11 @@ export default function Navbar() {
         </button>
       </div>
       {menuSpan ? (
-        <div className='md:hidden absolute mt-60 bg-cgr-gray-20 rounded-lg w-fill px-10 py-3 right-10 flex flex-col gap-y-4'>
+        <div
+          className='md:hidden absolute mt-60 bg-cgr-gray-20 rounded-lg w-fill px-10 py-3 right-10 flex flex-col gap-y-4'
+          onClick={() => {
+            setMenuSpan(!menuSpan)
+          }}>
           <NavbarItem path='/'>
             <i className='bi bi-house-fill mr-2'></i>Home
           </NavbarItem>
@@ -52,7 +56,7 @@ export default function Navbar() {
           <NavbarItem path='/bookings'>
             <i className='bi bi-bookmarks-fill mr-2'></i>My Booking
           </NavbarItem>
-          <NavbarItem path='/bookings'>
+          <NavbarItem path='/user'>
             <i className='bi bi-person-fill mr-2'></i>User's Name
           </NavbarItem>
         </div>
