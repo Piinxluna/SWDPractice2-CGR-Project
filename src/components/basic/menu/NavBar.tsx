@@ -31,6 +31,8 @@ export default function Navbar() {
         </div>
       </Link>
 
+      {/* menu span */}
+      {/* incase of smaller than breakpoinr md */}
       <div className='md:hidden col-span-4 text-right mr-7'>
         <button
           onClick={() => {

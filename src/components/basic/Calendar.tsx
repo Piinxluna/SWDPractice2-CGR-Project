@@ -38,8 +38,13 @@ export default function Component({
 
   return (
     <div>
-      <p>{beforeThisMonth}</p>
-      <p className='text-gray-60 font-semibold text-center mb-2'>{monthName}</p>
+      {/* <p>{beforeThisMonth}</p> */}
+      <div>
+        <p className='text-gray-60 font-semibold text-center mb-2'>
+          {monthName}, {year}
+        </p>
+      </div>
+
       <div className='grid grid-cols-7 gap-2'>{availability}</div>
     </div>
   )

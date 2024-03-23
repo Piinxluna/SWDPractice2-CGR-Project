@@ -50,12 +50,12 @@ export default function Campgrounds() {
   ]
 
   return (
-    <div className='px-5 pt-7'>
+    <main className='px-5 pt-7'>
       <div className='text-4xl font-bold mb-6 z-30 text-cgr-black'>
         Campgrounds
       </div>
       <div className='h-1 w-full mt-5 mb-10 bg-cgr-dark-green rounded-xl'></div>
       <CampgroundPanelCampgrounds campgrounds={mockCampgrounds} />
-    </div>
+    </main>
   )
 }

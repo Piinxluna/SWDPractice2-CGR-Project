@@ -22,7 +22,7 @@ export default function Banner() {
       </div>
       <div className='z-[1] text-white absolute bottom-10 right-10'>
         <Link href='/bookings/create'>
-          <button className='cgr-btn-outline-gray'>
+          <button className='cgr-btn-outline-white'>
             Book Now <i className='bi bi-arrow-right-circle-fill ml-3'></i>
           </button>
         </Link>
