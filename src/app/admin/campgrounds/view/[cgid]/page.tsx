@@ -2,6 +2,14 @@ import Card from '@/components/basic/card/Card'
 import CampgroundDetail from '@/components/complex/CampgroundDetail'
 import Image from 'next/image'
 import Link from 'next/link'
+import {
+  Key,
+  ReactElement,
+  JSXElementConstructor,
+  ReactNode,
+  ReactPortal,
+  AwaitedReactNode,
+} from 'react'
 
 export default function AdminViewCampground({
   params,
@@ -143,23 +151,32 @@ export default function AdminViewCampground({
               <th>View</th>
               <th>Delete</th>
             </tr>
-            {mockdataCampground.get(params.cgid).sites.map((obj) => (
-              <tr key={obj.sid} className='text-center'>
-                <td>{obj.zone}</td>
-                <td>{obj.siteNumber}</td>
-                <td>{obj.size}</td>
-                <td>
-                  <Link
-                    href={`/admin/campgrounds/view/${params.cgid}/${obj.sid}`}>
-                    <button className='cgr-btn-outline-gray'>view</button>
-                  </Link>
-                </td>
-                <td>
-                  {/* doesn't set yet */}
-                  <button className='cgr-btn-red'>Delete</button>
-                </td>
-              </tr>
-            ))}
+            {mockdataCampground
+              .get(params.cgid)
+              .sites.map(
+                (obj: {
+                  sid: string | null
+                  zone: string | number | null
+                  siteNumber: string | number | null
+                  size: string | null
+                }) => (
+                  <tr key={obj.sid} className='text-center'>
+                    <td>{obj.zone}</td>
+                    <td>{obj.siteNumber}</td>
+                    <td>{obj.size}</td>
+                    <td>
+                      <Link
+                        href={`/admin/campgrounds/view/${params.cgid}/${obj.sid}`}>
+                        <button className='cgr-btn-outline-gray'>view</button>
+                      </Link>
+                    </td>
+                    <td>
+                      {/* doesn't set yet */}
+                      <button className='cgr-btn-red'>Delete</button>
+                    </td>
+                  </tr>
+                )
+              )}
           </table>
         </div>
       </Card>
