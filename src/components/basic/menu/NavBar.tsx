@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import NavbarItem from './NavbarItem'
+import Link from 'next/link'
 
 export default function Navbar() {
   const [menuSpan, setMenuSpan] = useState(false)
@@ -24,9 +25,11 @@ export default function Navbar() {
           <i className='bi bi-bookmarks-fill mr-2'></i>My Booking
         </NavbarItem>
       </div>
-      <div className='text-right text-cgr-dark-green font-bold me-8 w-fill hidden md:block'>
-        User's Name
-      </div>
+      <Link href='/profile' className='hidden md:block'>
+        <div className='text-right text-cgr-dark-green font-bold me-8 w-fill hidden md:block'>
+          User's Name
+        </div>
+      </Link>
 
       <div className='md:hidden col-span-4 text-right mr-7'>
         <button
@@ -56,7 +59,7 @@ export default function Navbar() {
           <NavbarItem path='/bookings'>
             <i className='bi bi-bookmarks-fill mr-2'></i>My Booking
           </NavbarItem>
-          <NavbarItem path='/user'>
+          <NavbarItem path='/profile'>
             <i className='bi bi-person-fill mr-2'></i>User's Name
           </NavbarItem>
         </div>

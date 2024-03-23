@@ -10,7 +10,7 @@ export default function Component() {
   }
 
   return (
-    <main className='bg-white p-16 min-h-screen'>
+    <main className='bg-white p-10 md:px-16 lg:px-36 xl:px-72 2xl:px-96 min-h-screen'>
       <h1 className='text-4xl font-bold text-cgr-dark-green mb-8'>
         Your Profile
       </h1>
