@@ -21,22 +21,21 @@ export default function Component() {
   return (
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
       <h1 className='text-cgr-black text-4xl font-bold mb-4'>Campgrounds</h1>
-      <div className='flex flex-row flex-wrap justify-start items-baseline space-y-2 mb-8'>
-        <div className='flex flex-row w-fit space-x-3'>
+      <div className='flex flex-row flex-wrap justify-between items-baseline space-y-2 mb-8'>
+        <div className='flex flex-row w-full md:w-fit space-x-3'>
           <input
             type='text'
-            className='cgr-search-box placeholder-cgr-dark-green w-54 md:w-128'
+            className='cgr-search-box placeholder-cgr-dark-green w-full'
             placeholder='Find something...'
           />
           <input
             type='text'
-            className='cgr-search-box placeholder-cgr-dark-green'
+            className='cgr-search-box placeholder-cgr-dark-green w-full'
             placeholder='Find something...'
           />
         </div>
-        <div className='grow hidden sm:block'></div>
-        <Link href='/admin/campgrounds/create'>
-          <button className='cgr-btn w-fit'>Create new campground</button>
+        <Link href='/admin/campgrounds/create' className='w-full md:w-fit'>
+          <button className='cgr-btn w-full md:w-fit'>Book more</button>
         </Link>
       </div>
       <table className='cgr-table'>
