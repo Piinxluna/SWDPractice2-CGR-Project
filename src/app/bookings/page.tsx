@@ -1,4 +1,5 @@
 import BookingPanel from '@/components/complex/BookingPanel'
+import SortButton from '@/components/template/SortButton'
 
 export default function Home() {
   const mockDate = new Date(Date.now())
@@ -58,11 +59,7 @@ export default function Home() {
             className='cgr-search-box placeholder-cgr-dark-green w-full'
             placeholder='Find something...'
           />
-          <input
-            type='text'
-            className='cgr-search-box placeholder-cgr-dark-green w-full'
-            placeholder='Find something...'
-          />
+          <SortButton />
         </div>
         <button className='cgr-btn w-full md:w-fit'>Book more</button>
       </div>
