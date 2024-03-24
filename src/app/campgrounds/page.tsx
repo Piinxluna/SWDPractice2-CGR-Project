@@ -1,53 +1,8 @@
 import CampgroundPanelCampgrounds from '@/components/complex/CampgroundPanelCampgrounds'
+import getCampgrounds from '@/libs/campgrounds/getCampgrounds'
 
-export default function Campgrounds() {
-  const mockCampgrounds = [
-    {
-      id: '1',
-      name: 'campground1',
-      province: 'Bangkok',
-      totalSite: 1000,
-      tel: '012-345-6789',
-      picture: '/img/campgroundSample.jpg',
-      facilities: ['toilet', 'parking'],
-    },
-    {
-      id: '1',
-      name: 'campground1',
-      province: 'Bangkok',
-      totalSite: 1000,
-      tel: '012-345-6789',
-      picture: '/img/campgroundSample.jpg',
-      facilities: ['toilet', 'parking'],
-    },
-    {
-      id: '1',
-      name: 'campground1',
-      province: 'Bangkok',
-      totalSite: 1000,
-      tel: '012-345-6789',
-      picture: '/img/campgroundSample.jpg',
-      facilities: ['toilet', 'parking'],
-    },
-    {
-      id: '1',
-      name: 'campground1',
-      province: 'Bangkok',
-      totalSite: 1000,
-      tel: '012-345-6789',
-      picture: '/img/campgroundSample.jpg',
-      facilities: ['toilet', 'parking'],
-    },
-    {
-      id: '1',
-      name: 'campground1',
-      province: 'Bangkok',
-      totalSite: 1000,
-      tel: '012-345-6789',
-      picture: '/img/campgroundSample.jpg',
-      facilities: ['toilet', 'parking'],
-    },
-  ]
+export default async function Campgrounds() {
+  const campgrounds: CampgroundsJson = await getCampgrounds()
 
   return (
     <main className='px-5 pt-7'>
@@ -55,7 +10,7 @@ export default function Campgrounds() {
         Campgrounds
       </div>
       <div className='h-1 w-full mt-5 mb-10 bg-cgr-dark-green rounded-xl'></div>
-      <CampgroundPanelCampgrounds campgrounds={mockCampgrounds} />
+      <CampgroundPanelCampgrounds campgrounds={campgrounds.data} />
     </main>
   )
 }

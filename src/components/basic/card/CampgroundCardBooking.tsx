@@ -6,43 +6,41 @@ import Tag from '../Tag'
 export default function CampgroundCardBooking({
   campground,
 }: {
-  campground: {
-    id: string
-    name: string
-    province: string
-    totalSite: number
-    tel: string
-    picture: string
-    facilities: string[]
-  }
+  campground: CampgroundItem
 }) {
   return (
     <Link
-      href={`/campgrounds/view/${campground.id}`}
+      href={`/campgrounds/view/${campground._id}`}
       className='hover:scale-105 duration-300'>
       <Card>
         <div className='p-0 flex flex-row'>
-          <Image
-            src={campground.picture}
-            alt={`${campground.name} picture`}
-            width={0}
-            height={0}
-            sizes='100vw'
-            className='object-cover w-1/4 rounded-l-xl shadow-none'></Image>
+          {campground.pictures.length != 0 ? (
+            <Image
+              src={`/${campground.pictures[0]}`}
+              alt={`${campground.name} picture`}
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='object-cover w-1/4 rounded-l-xl shadow-none'></Image>
+          ) : (
+            <div className='w-1/4 rounded-l-xl shadow-none bg-cgr-light-green'></div>
+          )}
           <div className='w-3/4 p-6'>
             {/* Card Title */}
             <div className='mb-4'>
               <p className='text-2xl font-bold text-cgr-black'>
                 {campground.name}
               </p>
-              <p className='text-md font-light'>{campground.province}</p>
+              <p className='text-md font-light'>
+                {campground.address.province}
+              </p>
             </div>
 
             {/* Card Detail */}
             <div className='my-4 flex flex-col space-y-1 text-sm'>
               <div className='flex flex-row'>
                 <i className='bi bi-signpost-split w-fill me-3'></i>
-                <p>Site number : {campground.totalSite}</p>
+                <p>Site number : {campground.amount}</p>
               </div>
               <div className='flex flex-row'>
                 <i className='bi bi-telephone w-fill me-3'></i>
