@@ -16,7 +16,7 @@ export default function CampgroundCardBooking({
         <div className='p-0 flex flex-row'>
           {campground.pictures.length != 0 ? (
             <Image
-              src={`/${campground.pictures[0]}`}
+              src={`${process.env.BACKEND_URL}images/${campground.pictures[0]}`}
               alt={`${campground.name} picture`}
               width={0}
               height={0}
