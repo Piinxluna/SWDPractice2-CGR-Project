@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 
 import { authOptions } from '../api/auth/[...nextauth]/route'
 import Card from '@/components/basic/card/Card'
-import getMe from '@/libs/user/getMe'
+import getMe from '@/libs/users/getMe'
 
 export default async function Component() {
   const session = await getServerSession(authOptions)

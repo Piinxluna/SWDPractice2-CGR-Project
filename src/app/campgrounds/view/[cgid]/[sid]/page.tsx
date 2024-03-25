@@ -3,7 +3,7 @@ import CampgroundDetail from '@/components/complex/CampgroundDetail'
 import Calendar from '@/components/basic/Calendar'
 import Link from 'next/link'
 import getCampgroundSite from '@/libs/campgrounds/getCampgroundSite'
-import getBookedReserves from '@/libs/booking/getBookedReserves'
+import getBookedReserves from '@/libs/bookings/getBookedReserves'
 
 export default async function ViewCampgroundSite({
   params,

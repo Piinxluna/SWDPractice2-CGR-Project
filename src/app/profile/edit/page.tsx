@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 import { TextField } from '@mui/material'
 
 import Card from '@/components/basic/card/Card'
-import getMe from '@/libs/user/getMe'
+import getMe from '@/libs/users/getMe'
 import SuspenseUI from '@/components/basic/SuspenseUI'
 
 export default function Component() {
