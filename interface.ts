@@ -84,3 +84,24 @@ interface CampgroundSiteJson {
   campground: CampgroundItem
   site: CampgroundSiteItem
 }
+
+// reserves --------------------------------------------------------
+
+interface BookedReservesItem {
+  _id: string
+  campground: CampgroundItem
+  site: CampgroundSiteItem
+  startDate: Date
+}
+
+interface BookedReservesJson {
+  success: boolean
+  count: number
+  pagination: {
+    next: {
+      page: number
+      limit: number
+    }
+  }
+  data: BookedReservesItem[]
+}

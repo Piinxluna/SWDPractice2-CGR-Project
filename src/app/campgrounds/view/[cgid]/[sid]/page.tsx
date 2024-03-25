@@ -3,6 +3,7 @@ import CampgroundDetail from '@/components/complex/CampgroundDetail'
 import Calendar from '@/components/basic/Calendar'
 import Link from 'next/link'
 import getCampgroundSite from '@/libs/campgrounds/getCampgroundSite'
+import getBookedReserves from '@/libs/booking/getBookedReserves'
 
 export default async function ViewCampgroundSite({
   params,
@@ -45,6 +46,42 @@ export default async function ViewCampgroundSite({
   const today = new Date(Date.now())
   const month = today.getMonth() + 1
   const year = today.getFullYear()
+
+  const lastDay = new Date(year, month + 2, 0)
+  const lastMonth = lastDay.getMonth()
+  const lastYear = lastDay.getFullYear()
+
+  const reserveDateJson: BookedReservesJson = await getBookedReserves(
+    `site=${params.sid}&startDate[gte]=${year}-${month}-01&startDate[lte]=${lastYear}-${lastMonth + 1}-${lastDay.getDate()}&sort=startDate`
+  )
+  const reserveDate: Date[] = reserveDateJson.data.map((obj) => {
+    return new Date(obj.startDate)
+  })
+
+  const firstMonthReserveDate: Date[] = reserveDate.filter(
+    (obj) => obj.getMonth() + 1 === month
+  )
+  const secondMonthReserveDate: Date[] = reserveDate.filter(
+    (obj) => obj.getMonth() + 1 !== month && obj.getMonth() + 1 !== lastMonth
+  )
+  const thirdMonthReserveDate: Date[] = reserveDate.filter(
+    (obj) => obj.getMonth() + 1 === lastMonth
+  )
+
+  let firstMonthReserve: number[] = []
+  firstMonthReserveDate.forEach((obj) => {
+    firstMonthReserve.push(obj.getDate())
+  })
+
+  let secondMonthReserve: number[] = []
+  secondMonthReserveDate.forEach((obj) => {
+    secondMonthReserve.push(obj.getDate())
+  })
+
+  let thirdMonthReserve: number[] = []
+  thirdMonthReserveDate.forEach((obj) => {
+    thirdMonthReserve.push(obj.getDate())
+  })
 
   return (
     <main className='px-4 py-14 sm:px-10 md:px-16 lg:px-32 xl:px-48 2xl:px-80'>
@@ -90,17 +127,17 @@ export default async function ViewCampgroundSite({
             <Calendar
               month={month}
               year={year}
-              unavailableDates={[1, 2, 3, 5, 7, 9]}
+              unavailableDates={firstMonthReserve}
             />
             <Calendar
               month={month + 1}
               year={year}
-              unavailableDates={[1, 2, 3, 5, 7, 9]}
+              unavailableDates={secondMonthReserve}
             />
             <Calendar
               month={month + 2}
               year={year}
-              unavailableDates={[1, 2, 3, 5, 7, 9]}
+              unavailableDates={thirdMonthReserve}
             />
           </div>
         </div>

@@ -7,7 +7,7 @@ export default function Component({
 }: {
   month: number
   year: number
-  unavailableDates: number[]
+  unavailableDates: (number | undefined)[]
 }) {
   month -= 1
   const totalDay = new Date(year, month + 1, 0).getDate()
