@@ -1,11 +1,26 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import NavbarItem from './NavbarItem'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 
 export default function Navbar() {
+  const { data: session } = useSession()
+  const [loginTitle, setLoginTitle] = useState('Login')
+  const [loginAction, setLoginAction] = useState('login')
   const [menuSpan, setMenuSpan] = useState(false)
+
+  useEffect(() => {
+    console.log(session)
+    if (session) {
+      setLoginTitle(session.user?.name)
+      setLoginAction('profile')
+    } else {
+      setLoginTitle('Login')
+      setLoginAction('login')
+    }
+  }, [session])
 
   return (
     <div className='fixed flex grid grid-cols-5 bg-cgr-white h-14 z-[100] top-0 right-0 left-0 w-screen items-center justify-between'>
@@ -25,9 +40,9 @@ export default function Navbar() {
           <i className='bi bi-bookmarks-fill mr-2'></i>My Booking
         </NavbarItem>
       </div>
-      <Link href='/profile' className='hidden md:block'>
+      <Link href={`/${loginAction}`} className='hidden md:block'>
         <div className='text-right text-cgr-dark-green font-bold me-8 w-fill hidden md:block'>
-          User's Name
+          {loginTitle}
         </div>
       </Link>
 
@@ -61,8 +76,9 @@ export default function Navbar() {
           <NavbarItem path='/bookings'>
             <i className='bi bi-bookmarks-fill mr-2'></i>My Booking
           </NavbarItem>
-          <NavbarItem path='/profile'>
-            <i className='bi bi-person-fill mr-2'></i>User's Name
+          <NavbarItem path={`/${loginAction}`}>
+            <i className='bi bi-person-fill mr-2'></i>
+            {loginTitle}
           </NavbarItem>
         </div>
       ) : (
