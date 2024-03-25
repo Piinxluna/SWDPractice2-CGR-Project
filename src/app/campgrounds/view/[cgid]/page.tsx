@@ -16,8 +16,33 @@ export default async function ViewCampground({
     params.cgid
   )
 
+  const addressType: (keyof {
+    houseNumber: string
+    lane: string
+    road: string
+    subDistrict: string
+    district: string
+    province: string
+    postalCode: string
+    link: string
+  })[] = [
+    'houseNumber',
+    'lane',
+    'road',
+    'subDistrict',
+    'district',
+    'province',
+    'postalCode',
+  ]
+  const address: string[] = []
+  for (let type of addressType) {
+    let sth = campground.address[type]
+    address.push(sth)
+  }
+  const addressString = address.join(' ')
+
   return (
-    <main className='px-4 py-14 sm:px-10 md:px-16 lg:px-36 xl:px-60 2xl:px-80'>
+    <main className='px-4 py-14 sm:px-10 md:px-16 lg:px-36 xl:px-52 2xl:px-80'>
       <Card>
         {/* campground detail */}
         <div className='p-10'>
@@ -27,7 +52,7 @@ export default async function ViewCampground({
                 {campground.name}
               </h1>
               <CampgroundDetail
-                address={campground.address.province}
+                address={addressString}
                 googleMap={campground.address.link}
                 website={campground.website}
                 tel={campground.tel}
@@ -37,8 +62,8 @@ export default async function ViewCampground({
             <div className='h-full w-full'>
               {campground.pictures.length != 0 ? (
                 <Image
-                  src={'/img/campgroundSample.jpg'}
-                  alt='campground image'
+                  src={`${process.env.BACKEND_URL}images/${campground.pictures[0]}`}
+                  alt={`${campground.name} picture`}
                   width={0}
                   height={0}
                   sizes='100vw'

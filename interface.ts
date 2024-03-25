@@ -52,6 +52,7 @@ interface CampgroundJson {
 }
 
 // campground site --------------------------------------------------------
+
 interface CampgroundSiteItem {
   _id: string
   campground: string
@@ -65,6 +66,7 @@ interface CampgroundSiteItem {
 }
 
 interface CampgroundSitesJson {
+  // for many
   success: boolean
   campground: CampgroundItem
   sites: CampgroundSiteItem[]
@@ -74,4 +76,11 @@ interface CampgroundSitesJson {
       limit: number
     }
   }
+}
+
+interface CampgroundSiteJson {
+  // for one
+  success: boolean
+  campground: CampgroundItem
+  site: CampgroundSiteItem
 }
