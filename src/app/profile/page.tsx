@@ -30,7 +30,7 @@ export default async function ViewProfile() {
             <Link href='/profile/edit' className='flex justify-end'>
               <button className='cgr-btn-outline'>Edit</button>
             </Link>
-            <Link href='/api/auth/signout' className='flex justify-end'>
+            <Link href='/logout' className='flex justify-end'>
               <button className='cgr-btn-red'>Logout</button>
             </Link>
           </div>
