@@ -8,7 +8,7 @@ import Card from '@/components/basic/card/Card'
 export default function Component() {
 
 
-      const mockBooking = {
+      const mockCampground = {
         name: 'Campground1',  
         zone : 'A',
         sitenumber : '1',
@@ -19,14 +19,14 @@ export default function Component() {
         date : '3/25/2024'
       }
     
-      const [cgName,setCgName] = useState(mockBooking.name)
-      const [zone,setZone] = useState(mockBooking.zone)
-      const [siteNumber,setSiteNumber] = useState(mockBooking.sitenumber)
-      const [preferredName,setPreferredName] = useState(mockBooking.preferredname)
-      const [amount,setAmount] = useState(mockBooking.amount)
-      const [tentSizeW,setTentSizeW] = useState(mockBooking.tentsizew)
-      const [tentSizeL,setTentSizeL] = useState(mockBooking.tentsizel)
-      const [date, setDate] = useState (mockBooking.date)
+      const [cgName,setCgName] = useState(mockCampground.name)
+      const [zone,setZone] = useState(mockCampground.zone)
+      const [siteNumber,setSiteNumber] = useState(mockCampground.sitenumber)
+      const [preferredName,setPreferredName] = useState(mockCampground.preferredname)
+      const [amount,setAmount] = useState(mockCampground.amount)
+      const [tentSizeW,setTentSizeW] = useState(mockCampground.tentsizew)
+      const [tentSizeL,setTentSizeL] = useState(mockCampground.tentsizel)
+      const [date, setDate] = useState (mockCampground.date)
 
  return(
 
