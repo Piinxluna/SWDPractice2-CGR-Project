@@ -35,7 +35,7 @@ export default function Logout() {
             <button
               className='cgr-btn-outline w-[40%]'
               onClick={() => {
-                router.push('/')
+                router.back()
               }}>
               No
             </button>

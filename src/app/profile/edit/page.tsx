@@ -1,14 +1,18 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { TextField } from '@mui/material'
+import { useRouter } from 'next/navigation'
 
 import Card from '@/components/basic/card/Card'
 import getMe from '@/libs/users/getMe'
 import SuspenseUI from '@/components/basic/SuspenseUI'
+import updateMe from '@/libs/users/updateMe'
+import deleteMe from '@/libs/users/deleteMe'
 
 export default function EditProfile() {
+  const router = useRouter()
   const { data: session } = useSession()
   if (!session || !session.user.token) return null
 
@@ -16,7 +20,23 @@ export default function EditProfile() {
   const [name, setName] = useState('')
   const [tel, setTel] = useState('')
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  // const [password, setPassword] = useState('')
+
+  const submit = () => {
+    if (name && tel && email) {
+      const callRegister = async () => {
+        // await updateMe(session.user.token, name, tel, email, password)
+        await updateMe(session.user.token, name, tel, email)
+      }
+      callRegister()
+      alert(
+        'Update data successfully. Please refresh the profile page if your data is not updated'
+      )
+      router.back()
+    } else {
+      alert('Please provide all required information')
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,8 +100,8 @@ export default function EditProfile() {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 setEmail(event.target.value)
               }}
-            />{' '}
-            <p className='font-medium'>Password : </p>
+            />
+            {/* <p className='font-medium'>Password : </p>
             <TextField
               type='password'
               id='password'
@@ -95,10 +115,12 @@ export default function EditProfile() {
                 setPassword(event.target.value)
               }}
               helperText='You can leave this box empty, enter your password only if you want to change it'
-            />
+            /> */}
           </div>
           <div className='flex justify-center mt-6'>
-            <button className='cgr-btn w-full'>Done</button>
+            <button className='cgr-btn w-full' onClick={submit}>
+              Done
+            </button>
           </div>
         </div>
       </Card>
@@ -107,7 +129,9 @@ export default function EditProfile() {
           className='cgr-btn-red'
           onClick={() => {
             if (confirm('Are you sure to delete your account?')) {
-              // delete account
+              signOut({ redirect: false })
+              deleteMe(session.user.token)
+              router.push('/')
             }
           }}>
           Delete account
