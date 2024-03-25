@@ -1,21 +1,35 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 import { TextField } from '@mui/material'
 
 import Card from '@/components/basic/card/Card'
+import getMe from '@/libs/user/getMe'
+import SuspenseUI from '@/components/basic/SuspenseUI'
 
 export default function Component() {
-  const mockUser = {
-    name: 'panda',
-    tel: '0123456789',
-    email: 'test@gmail.com',
-  }
+  const { data: session } = useSession()
+  if (!session || !session.user.token) return null
 
-  const [name, setName] = useState(mockUser.name)
-  const [tel, setTel] = useState(mockUser.tel)
-  const [email, setEmail] = useState(mockUser.email)
+  const [isReady, setIsReady] = useState(false)
+  const [name, setName] = useState('')
+  const [tel, setTel] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const user = (await getMe(session.user.token)).data
+      setName(user.name)
+      setTel(user.tel)
+      setEmail(user.email)
+    }
+    fetchData()
+    setIsReady(true)
+  }, [])
+
+  if (!isReady) return <SuspenseUI />
 
   return (
     <main className='bg-white px-4 py-10 sm:px-10 md:px-16 lg:px-36 xl:px-72 2xl:px-96 min-h-screen'>
