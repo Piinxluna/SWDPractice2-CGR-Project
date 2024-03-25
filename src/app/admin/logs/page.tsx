@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 
-export default function Component() {
+export default function LogsTable() {
   const router = useRouter()
   const mockCampgrounds = [
     {

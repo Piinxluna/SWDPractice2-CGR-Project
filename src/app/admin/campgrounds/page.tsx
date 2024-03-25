@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function CampgroundTable() {
+export default function CampgroundsTable() {
   const mockCampgrounds = [
     {
       name: 'Campground',

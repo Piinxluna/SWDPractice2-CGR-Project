@@ -10,7 +10,11 @@ import Button from '@mui/material/Button'
 
 import Card from '@/components/basic/card/Card'
 
-export default function Component({ params }: { params: { type: string } }) {
+export default function CreateCampground({
+  params,
+}: {
+  params: { type: string }
+}) {
   const title = params.type === 'create' ? 'Create new' : 'Edit'
   const submitBtnTitle = params.type === 'create' ? 'Create' : 'Done'
 
