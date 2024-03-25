@@ -1,0 +1,15 @@
+export default async function getUsers(token: string, query?: string) {
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/api/users?${query}`,
+    {
+      method: 'GET',
+      headers: { authorization: `Bearer ${token}` },
+    }
+  )
+
+  if (!response.ok) {
+    throw new Error("Cannot fetch user's profile")
+  }
+
+  return response.json()
+}

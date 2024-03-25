@@ -28,10 +28,11 @@ export default async function Component({
       className='hover:scale-105 duration-300'>
       <Card>
         <div className='p-0 flex flex-row'>
-          {fullCampgroundDetail.pictures.length != 0 ? (
+          {fullCampgroundDetail.pictures &&
+          fullCampgroundDetail.pictures.length != 0 ? (
             <Image
-              src={`${process.env.BACKEND_URL}/images/${campground.pictures[0]}`}
-              alt={`${campground.name} picture`}
+              src={`${process.env.BACKEND_URL}/images/${fullCampgroundDetail.pictures[0]}`}
+              alt={`${fullCampgroundDetail.name} picture`}
               width={0}
               height={0}
               sizes='100vw'

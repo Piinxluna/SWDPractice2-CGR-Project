@@ -127,5 +127,26 @@ interface MyReservesJson {
       limit: number
     }
   }
-  data: []
+  data: MyReservesItem[]
+}
+
+// logs --------------------------------------------------------
+
+interface LogItem {
+  _id: string
+  user: string
+  action: string
+  accessedAt: Date
+}
+
+interface LogJson {
+  success: boolean
+  count: number
+  pagination: {
+    next: {
+      page: number
+      limit: number
+    }
+  }
+  data: LogItem[]
 }

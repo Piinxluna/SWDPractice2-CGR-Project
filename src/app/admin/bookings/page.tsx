@@ -1,32 +1,14 @@
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import getReserves from '@/libs/bookings/getReserves'
+import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 
-export default function BookingsTable() {
-  const mockUser = [
-    {
-      name: 'AAAAAAAAA',
-      date: new Date(Date.now()),
-      campground: 'Campground1',
-      zone: 'A',
-      site: '1',
-      id: 'B1',
-    },
-    {
-      name: 'BBBBBBBBBB',
-      date: new Date(Date.now()),
-      campground: 'Campground1',
-      zone: 'A',
-      site: '1',
-      id: 'B2',
-    },
-    {
-      name: 'CCCCCCCCCC',
-      date: new Date(Date.now()),
-      campground: 'Campground1',
-      zone: 'B',
-      site: '1',
-      id: 'B3',
-    },
-  ]
+export default async function BookingsTable() {
+  const session = await getServerSession(authOptions)
+  if (!session || !session.user.token) return null
+
+  const booking: MyReservesItem[] = (await getReserves(session.user?.token))
+    .data
 
   return (
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
@@ -38,15 +20,7 @@ export default function BookingsTable() {
             className='cgr-search-box placeholder-cgr-dark-green w-full'
             placeholder='Find something...'
           />
-          <input
-            type='text'
-            className='cgr-search-box placeholder-cgr-dark-green w-full'
-            placeholder='Find something...'
-          />
         </div>
-        <Link href='/admin/campgrounds/create' className='w-full md:w-fit'>
-          <button className='cgr-btn w-full md:w-fit'>Create User</button>
-        </Link>
       </div>
       <table className='cgr-table'>
         <tr className='h-10'>
@@ -57,15 +31,15 @@ export default function BookingsTable() {
           <th className='w-1/6'>Site Number</th>
           <th className='w-1/6'>View</th>
         </tr>
-        {mockUser.map((obj) => (
-          <tr key={obj.id}>
-            <td>{obj.name}</td>
-            <td>{obj.date.toString()}</td>
-            <td>{obj.campground}</td>
-            <td className='text-center'>{obj.zone}</td>
-            <td className='text-center'>{obj.site}</td>
+        {booking.map((obj) => (
+          <tr key={obj._id}>
+            <td>{obj.preferredName}</td>
+            <td>{obj.startDate.toString()}</td>
+            <td>{obj.campground.name}</td>
+            <td className='text-center'>{obj.site.zone}</td>
+            <td className='text-center'>{obj.site.number}</td>
             <td className='text-center'>
-              <Link href={`/booking/view/${obj.id}`}>
+              <Link href={`/booking/view/${obj._id}`}>
                 <button className='cgr-btn-outline-gray'>View</button>
               </Link>
             </td>
