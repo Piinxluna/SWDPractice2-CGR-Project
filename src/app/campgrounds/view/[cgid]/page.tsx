@@ -62,7 +62,7 @@ export default async function ViewCampground({
             <div className='h-full w-full'>
               {campground.pictures.length != 0 ? (
                 <Image
-                  src={`${process.env.BACKEND_URL}images/${campground.pictures[0]}`}
+                  src={`${process.env.BACKEND_URL}/images/${campground.pictures[0]}`}
                   alt={`${campground.name} picture`}
                   width={0}
                   height={0}
