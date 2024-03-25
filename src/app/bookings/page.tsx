@@ -1,54 +1,34 @@
 import BookingPanel from '@/components/complex/BookingPanel'
 import SortButton from '@/components/template/SortButton'
+import getReserves from '@/libs/bookings/getReserves'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '../api/auth/[...nextauth]/route'
 
-export default function Bookings() {
-  const mockDate = new Date(Date.now())
-  const mockBookings = [
-    {
-      campground: {
-        name: 'campground',
-        province: 'Bangkok',
-        tel: '012-345-6899',
-        picture: '/img/campgroundSample.jpg',
-      },
-      site: { siteNumber: 1, zone: 'A' },
-      date: mockDate,
-      id: 'ABC',
-    },
-    {
-      campground: {
-        name: 'campground',
-        province: 'Bangkok',
-        tel: '012-345-6899',
-        picture: '/img/campgroundSample.jpg',
-      },
-      site: { siteNumber: 1, zone: 'A' },
-      date: mockDate,
-      id: 'ABC',
-    },
-    {
-      campground: {
-        name: 'campground',
-        province: 'Bangkok',
-        tel: '012-345-6899',
-        picture: '/img/campgroundSample.jpg',
-      },
-      site: { siteNumber: 1, zone: 'A' },
-      date: mockDate,
-      id: 'ABC',
-    },
-    {
-      campground: {
-        name: 'campground',
-        province: 'Bangkok',
-        tel: '012-345-6899',
-        picture: '/img/campgroundSample.jpg',
-      },
-      site: { siteNumber: 1, zone: 'A' },
-      date: mockDate,
-      id: 'ABC',
-    },
-  ]
+export default async function Home() {
+  const session = await getServerSession(authOptions)
+  if (!session || !session.user.token) return null
+
+  const queryString1: string =
+    'startDate[gte]=' +
+    new Date(Date.now()).getFullYear() +
+    '-' +
+    (new Date(Date.now()).getMonth() + 1) +
+    '-' +
+    new Date(Date.now()).getDate()
+  const queryString2: string =
+    'startDate[lt]=' +
+    new Date(Date.now()).getFullYear() +
+    '-' +
+    (new Date(Date.now()).getMonth() + 1) +
+    '-' +
+    new Date(Date.now()).getDate()
+
+  const incomingBooking: BookedReservesItem[] = (
+    await getReserves(session.user?.token, queryString1)
+  ).data
+  const achievedBooking: BookedReservesItem[] = (
+    await getReserves(session.user?.token, queryString2)
+  ).data
 
   return (
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
@@ -59,7 +39,7 @@ export default function Bookings() {
             className='cgr-search-box placeholder-cgr-dark-green w-full'
             placeholder='Find something...'
           />
-          <SortButton />
+          {/* <SortButton setFilter={() => {}} /> */}
         </div>
         <button className='cgr-btn w-full md:w-fit'>Book more</button>
       </div>
@@ -68,14 +48,14 @@ export default function Bookings() {
           Incoming Booking
         </p>
         <div className='h-1 w-full mt-5 mb-10 bg-cgr-dark-green rounded-xl'></div>
-        <BookingPanel bookings={mockBookings} />
+        <BookingPanel bookings={incomingBooking} />
       </div>
       <div>
         <p className='text-4xl font-bold mb-6 z-30 text-cgr-black'>
           Achieved Booking
         </p>
         <div className='h-1 w-full mt-5 mb-10 bg-cgr-dark-green rounded-xl'></div>
-        <BookingPanel bookings={mockBookings} />
+        <BookingPanel bookings={achievedBooking} />
       </div>
     </main>
   )

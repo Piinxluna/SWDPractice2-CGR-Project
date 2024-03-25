@@ -1,6 +1,6 @@
-export default async function getCampgroundSites(cgid: string) {
+export default async function getCampgroundSites(cgid: string, query?: string) {
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/campgrounds/${cgid}/sites`
+    `${process.env.BACKEND_URL}/api/campgrounds/${cgid}/sites?${query}`
   )
 
   if (!response.ok) {

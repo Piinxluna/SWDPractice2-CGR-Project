@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from 'react'
 
-export default function SortButton() {
+export default function SortButton({ setFilter }: { setFilter: Function }) {
   // status 0 = mean not sort
   // status 1 = mean sort ASC
   // status 2 = mean sort DESC
   const [status, setStatus] = useState(0)
   const [textForShowing, settextForShowing] = useState(
-    <p className='text-cgr-dark-green text-lg font-semibold'>A-Z</p>
+    <i className='bi bi-sort-down text-cgr-dark-green'></i>
   )
 
   useEffect(() => {

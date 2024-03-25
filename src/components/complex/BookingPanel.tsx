@@ -3,12 +3,7 @@ import BookingCard from '@/components/basic/card/BookingCard'
 export default function BookingPanel({
   bookings,
 }: {
-  bookings: {
-    campground: { name: string; province: string; tel: string; picture: string }
-    site: { siteNumber: number; zone: string }
-    date: Date
-    id: string
-  }[]
+  bookings: BookedReservesItem[]
 }) {
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
@@ -16,8 +11,8 @@ export default function BookingPanel({
         <BookingCard
           campground={obj.campground}
           site={obj.site}
-          date={obj.date}
-          id={obj.id}
+          date={obj.startDate}
+          id={obj._id}
         />
       ))}
     </div>
