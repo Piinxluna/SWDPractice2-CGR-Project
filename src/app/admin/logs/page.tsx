@@ -1,23 +1,14 @@
-'use client'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import getLogs from '@/libs/log/getLogs'
+import { getServerSession } from 'next-auth'
+import Link from 'next/link'
 
-import { useRouter } from 'next/navigation'
+export default async function LogsTable() {
+  const session = await getServerSession(authOptions)
+  if (!session || !session.user.token) return null
 
-export default function LogsTable() {
-  const router = useRouter()
-  const mockCampgrounds = [
-    {
-      user: '123456',
-      accessedAt: new Date(Date.now()),
-      type: 'Login',
-      id: 'ABCDEFG1',
-    },
-    {
-      user: '123456',
-      accessedAt: new Date(Date.now()),
-      type: 'Login',
-      id: 'ABCDEFG2',
-    },
-  ]
+  const logsJson: LogJson = await getLogs(session.user?.token)
+  const logs: LogItem[] = logsJson.data
 
   return (
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
@@ -26,11 +17,6 @@ export default function LogsTable() {
         <input
           type='text'
           className='cgr-search-box placeholder-cgr-dark-green w-54 md:w-128'
-          placeholder='Find something...'
-        />
-        <input
-          type='text'
-          className='cgr-search-box placeholder-cgr-dark-green'
           placeholder='Find something...'
         />
       </div>
@@ -42,28 +28,25 @@ export default function LogsTable() {
           <th className='w-2/12'>View user</th>
           <th className='w-2/12'>Delete</th>
         </tr>
-        {mockCampgrounds.map((obj) => (
-          <tr key={obj.id}>
+        {logs.map((obj) => (
+          <tr key={obj._id}>
             <td>{obj.user}</td>
-            <td>{obj.accessedAt.toUTCString()}</td>
-            <td className='text-center'>{obj.type}</td>
+            <td>{new Date(obj.accessedAt).toUTCString()}</td>
+            <td className='text-center'>{obj.action}</td>
             <td className='text-center'>
-              <button
-                className='cgr-btn-outline-gray'
-                onClick={() => {
-                  router.push(`/admin/users/view/${obj.user}`)
-                }}>
-                View User
-              </button>
+              <Link href={`/admin/users/view/${obj.user}`}>
+                <button className='cgr-btn-outline-gray'>View User</button>
+              </Link>
             </td>
             <td className='text-center'>
               <button
                 className='cgr-btn-red'
-                onClick={() => {
-                  if (confirm('Please confirm to delete this log')) {
-                    // Delete
-                  }
-                }}>
+                // onClick={() => {
+                //   if (confirm('Please confirm to delete this log')) {
+                //     // Delete
+                //   }
+                // }}
+              >
                 Delete
               </button>
             </td>
