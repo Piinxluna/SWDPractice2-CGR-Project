@@ -2,23 +2,31 @@
 
 import { useState } from 'react'
 import { TextField } from '@mui/material'
-import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import Card from '@/components/basic/card/Card'
-import Link from 'next/link'
+import register from '@/libs/users/register'
 
 export default function Register() {
-  const mockUser = {
-    username: 'panda',
-    tel: '987654321',
-    email: 'test@gmail.com',
-    password: '12345678',
-  }
+  const router = useRouter()
+  const [name, setName] = useState('')
+  const [tel, setTel] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-  const [username, setUsername] = useState(mockUser.username)
-  const [tel, setTel] = useState(mockUser.tel)
-  const [email, setEmail] = useState(mockUser.email)
-  const [password, setPassword] = useState(mockUser.password)
+  const submit = () => {
+    if (name && tel && email && password) {
+      const callRegister = async () => {
+        await register(name, tel, email, password)
+      }
+      callRegister()
+      alert('Registered successfully')
+      router.push('/login')
+    } else {
+      alert('Please provide all required information')
+    }
+  }
 
   return (
     <main className='bg-white px-2 py-10 sm:px-10 md:px-16 lg:px-36 xl:px-72 2xl:px-96 min-h-screen'>
@@ -35,15 +43,15 @@ export default function Register() {
           <div className='flex flex-col items-center text-lg gap-5 mb-3'>
             <TextField
               required
-              id='username'
+              id='name'
               label='Your name'
               variant='outlined'
               size='small'
               InputProps={{ style: { borderRadius: '10px' } }}
               className='md:col-span-2 w-[80%] mb-2'
-              value={username}
+              value={name}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setUsername(event.target.value)
+                setName(event.target.value)
               }}></TextField>
             <TextField
               required
@@ -82,7 +90,9 @@ export default function Register() {
                 setPassword(event.target.value)
               }}
             />
-            <button className='cgr-btn w-[80%]'>Register</button>
+            <button className='cgr-btn w-[80%]' onClick={submit}>
+              Register
+            </button>
           </div>
           <div className='flex flex-row mb-6 ml-8'>
             <p className='text-sm ml-12 mt-2 mb-6'>

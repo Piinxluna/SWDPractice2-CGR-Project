@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 
 import { authOptions } from '../api/auth/[...nextauth]/route'
 import Card from '@/components/basic/card/Card'
-import getMe from '@/libs/user/getMe'
+import getMe from '@/libs/users/getMe'
 
 export default async function ViewProfile() {
   const session = await getServerSession(authOptions)
@@ -30,7 +30,7 @@ export default async function ViewProfile() {
             <Link href='/profile/edit' className='flex justify-end'>
               <button className='cgr-btn-outline'>Edit</button>
             </Link>
-            <Link href='/api/auth/signout' className='flex justify-end'>
+            <Link href='/logout' className='flex justify-end'>
               <button className='cgr-btn-red'>Logout</button>
             </Link>
           </div>

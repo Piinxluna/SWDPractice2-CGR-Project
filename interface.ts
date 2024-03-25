@@ -1,15 +1,3 @@
-interface CampgroundCard {
-  id: string
-  picture: string
-  name: string
-  province: string
-  amount: number
-  website: string
-  googlemap: string
-  tel: string
-  facilities: string[]
-}
-
 // campground --------------------------------------------------------
 interface CampgroundItem {
   _id: string
@@ -52,7 +40,6 @@ interface CampgroundJson {
 }
 
 // campground site --------------------------------------------------------
-
 interface CampgroundSiteItem {
   _id: string
   campground: string
@@ -85,8 +72,21 @@ interface CampgroundSiteJson {
   site: CampgroundSiteItem
 }
 
-// reserves --------------------------------------------------------
+// user --------------------------------------------------------
+interface UserItem {
+  _id: string
+  name: string
+  tel: string
+  email: string
+  role: string
+}
 
+interface UserJson {
+  success: boolean
+  data: UserItem
+}
+
+// reserves --------------------------------------------------------
 interface BookedReservesItem {
   _id: string
   campground: CampgroundItem
@@ -104,4 +104,27 @@ interface BookedReservesJson {
     }
   }
   data: BookedReservesItem[]
+}
+
+interface MyReservesItem {
+  _id: string
+  user: UserItem
+  campground: CampgroundItem
+  site: CampgroundSiteItem
+  preferredName: string
+  startDate: Date
+  amount: number
+  reservedAt: Date
+}
+
+interface MyReservesJson {
+  success: boolean
+  count: number
+  pagination: {
+    next: {
+      page: number
+      limit: number
+    }
+  }
+  data: []
 }

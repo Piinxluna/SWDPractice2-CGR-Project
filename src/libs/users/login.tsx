@@ -2,6 +2,7 @@ export default async function userLogin(
   userEmail: string,
   userPassword: string
 ) {
+  console.log('logging in')
   const response = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
