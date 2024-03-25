@@ -1,9 +1,9 @@
-import { LinearProgress } from '@mui/material'
+import { CircularProgress, LinearProgress } from '@mui/material'
 
-export default function Suspense() {
+export default function SuspenseUI() {
   return (
     <div>
-      Loading in progress... <LinearProgress />
+      Loading in progress... <CircularProgress />
     </div>
   )
 }

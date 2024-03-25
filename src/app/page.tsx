@@ -1,4 +1,3 @@
-import CampgroundCardHome from '@/components/basic/card/CampgroundCardHome'
 import Banner from '@/components/complex/Banner'
 import CampgroundPanelHome from '@/components/complex/CampgroundPanelHome'
 import getCampgrounds from '@/libs/campgrounds/getCampgrounds'

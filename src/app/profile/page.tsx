@@ -18,9 +18,6 @@ export default async function Component() {
       </h1>
       <Card>
         <div className='px-10 py-8'>
-          <Link href='/profile/edit' className='flex justify-end'>
-            <button className='cgr-btn-outline'>Edit</button>
-          </Link>
           <div className='grid grid-cols-1 md:grid-cols-3 text-lg gap-3 mb-3'>
             <p className='font-medium'>Name : </p>
             <p className='md:col-span-2'>{user.name}</p>
@@ -28,6 +25,14 @@ export default async function Component() {
             <p className='md:col-span-2'>{user.tel}</p>
             <p className='font-medium'>Email : </p>
             <p className='md:col-span-2'>{user.email}</p>
+          </div>
+          <div className='flex flex-row gap-3 justify-end'>
+            <Link href='/profile/edit' className='flex justify-end'>
+              <button className='cgr-btn-outline'>Edit</button>
+            </Link>
+            <Link href='/api/auth/signout' className='flex justify-end'>
+              <button className='cgr-btn-red'>Logout</button>
+            </Link>
           </div>
         </div>
       </Card>

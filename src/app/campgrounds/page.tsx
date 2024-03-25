@@ -1,5 +1,7 @@
+import SuspenseUI from '@/components/basic/SuspenseUI'
 import CampgroundPanelCampgrounds from '@/components/complex/CampgroundPanelCampgrounds'
 import getCampgrounds from '@/libs/campgrounds/getCampgrounds'
+import { Suspense } from 'react'
 
 export default async function Campgrounds() {
   const campgrounds: CampgroundsJson = await getCampgrounds()
@@ -10,7 +12,9 @@ export default async function Campgrounds() {
         Campgrounds
       </div>
       <div className='h-1 w-full mt-5 mb-10 bg-cgr-dark-green rounded-xl'></div>
-      <CampgroundPanelCampgrounds campgrounds={campgrounds.data} />
+      <Suspense fallback={<SuspenseUI />}>
+        <CampgroundPanelCampgrounds campgrounds={campgrounds.data} />
+      </Suspense>
     </main>
   )
 }

@@ -1,9 +1,11 @@
+import SuspenseUI from '@/components/basic/SuspenseUI'
 import Card from '@/components/basic/card/Card'
 import CampgroundDetail from '@/components/complex/CampgroundDetail'
 import getCampground from '@/libs/campgrounds/getCampground'
 import getCampgroundSites from '@/libs/campgrounds/getCampgroundSites'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 export default async function ViewCampground({
   params,
