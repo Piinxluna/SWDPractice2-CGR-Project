@@ -2,7 +2,7 @@ export default async function userLogin(
   userEmail: string,
   userPassword: string
 ) {
-  console.log('login is called', userEmail, userPassword)
+  console.log('logging in')
   const response = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -10,7 +10,6 @@ export default async function userLogin(
   })
 
   if (!response.ok) {
-    console.log('login failed')
     throw new Error('Failed to login')
   }
 

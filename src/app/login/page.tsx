@@ -58,11 +58,15 @@ export default function Login() {
             <button
               className='cgr-btn w-[40%]'
               onClick={() => {
-                signIn('credentials', {
-                  email: email,
-                  password: password,
-                  callbackUrl: '/',
-                })
+                if (email && password) {
+                  signIn('credentials', {
+                    email: email,
+                    password: password,
+                    callbackUrl: '/',
+                  })
+                } else {
+                  alert('Please provide all required information')
+                }
               }}>
               Login
             </button>
