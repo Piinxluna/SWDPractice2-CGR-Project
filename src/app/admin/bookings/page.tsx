@@ -1,14 +1,35 @@
+'use client'
+
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import SuspenseUI from '@/components/basic/SuspenseUI'
 import getReserves from '@/libs/bookings/getReserves'
 import { getServerSession } from 'next-auth'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
-export default async function BookingsTable() {
-  const session = await getServerSession(authOptions)
+export default function BookingsTable() {
+  const { data: session } = useSession()
   if (!session || !session.user.token) return null
 
-  const booking: MyReservesItem[] = (await getReserves(session.user?.token))
-    .data
+  const [booking, setBooking] = useState<MyReservesItem[]>([])
+  const [isReady, setIsReady] = useState(false)
+  const [query, setQuery] = useState('')
+
+  const fetchData = async () => {
+    var queryString = query.length != 0 ? `preferredName=${query}` : ''
+    const bookingFromFetch: MyReservesItem[] = (
+      await getReserves(session.user.token, queryString)
+    ).data
+    setBooking(bookingFromFetch)
+  }
+
+  useEffect(() => {
+    fetchData()
+    setIsReady(true)
+  }, [])
+
+  if (!isReady) return <SuspenseUI />
 
   return (
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
@@ -19,7 +40,17 @@ export default async function BookingsTable() {
             type='text'
             className='cgr-search-box placeholder-cgr-dark-green w-full'
             placeholder='Find something...'
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setQuery(event.target.value)
+            }
           />
+          <button
+            className='cgr-btn'
+            onClick={() => {
+              fetchData()
+            }}>
+            Search
+          </button>
         </div>
       </div>
       <table className='cgr-table'>
