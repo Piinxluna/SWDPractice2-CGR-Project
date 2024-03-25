@@ -1,7 +1,7 @@
 import BookingPanel from '@/components/complex/BookingPanel'
 import SortButton from '@/components/template/SortButton'
 
-export default function Home() {
+export default function Bookings() {
   const mockDate = new Date(Date.now())
   const mockBookings = [
     {

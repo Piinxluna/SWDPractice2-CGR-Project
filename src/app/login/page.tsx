@@ -7,7 +7,7 @@ import Image from 'next/image'
 import Card from '@/components/basic/card/Card'
 import Link from 'next/link'
 
-export default function Component() {
+export default function Login() {
   const mockUser = {
     name: 'panda',
     password: '12345678',

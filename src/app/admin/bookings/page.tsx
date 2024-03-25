@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function BookingTable() {
+export default function BookingsTable() {
   const mockUser = [
     {
       name: 'AAAAAAAAA',

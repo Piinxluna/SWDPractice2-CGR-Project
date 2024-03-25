@@ -8,7 +8,7 @@ import Card from '@/components/basic/card/Card'
 import getMe from '@/libs/user/getMe'
 import SuspenseUI from '@/components/basic/SuspenseUI'
 
-export default function Component() {
+export default function EditProfile() {
   const { data: session } = useSession()
   if (!session || !session.user.token) return null
 
