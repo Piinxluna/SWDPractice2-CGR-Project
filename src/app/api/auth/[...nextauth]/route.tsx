@@ -1,0 +1,46 @@
+import NextAuth, { AuthOptions } from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
+
+import userLogin from '@/libs/user/login'
+import getMe from '@/libs/user/getMe'
+
+export const authOptions: AuthOptions = {
+  providers: [
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials, req) {
+        if (!credentials) return null
+
+        const user = await userLogin(credentials.email, credentials.password)
+
+        if (user) {
+          const userData = await getMe(user.token)
+          const returnedUser = { ...user, ...userData.data }
+          return returnedUser
+        } else {
+          return null
+        }
+      },
+    }),
+  ],
+  session: { strategy: 'jwt' },
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...token, ...user }
+    },
+    async session({ session, token, user }) {
+      session.user = token as any
+      return session
+    },
+  },
+  // pages: {
+  //   signIn: '/login',
+  // },
+}
+
+const handler = NextAuth(authOptions)
+export { handler as GET, handler as POST }

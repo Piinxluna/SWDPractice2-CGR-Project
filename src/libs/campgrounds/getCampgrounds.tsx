@@ -4,7 +4,7 @@ export default async function getCampgrounds(filter?: string) {
   )
 
   if (!response.ok) {
-    throw new Error('Data cannot fetch')
+    throw new Error('Cannot fetch campgrounds data')
   }
 
   return response.json()
