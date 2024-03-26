@@ -127,10 +127,10 @@ export default function EditProfile() {
       <div className='flex justify-end mt-10'>
         <button
           className='cgr-btn-red'
-          onClick={() => {
+          onClick={async () => {
             if (confirm('Are you sure to delete your account?')) {
               signOut({ redirect: false })
-              deleteMe(session.user.token)
+              await deleteMe(session.user.token)
               router.push('/')
             }
           }}>

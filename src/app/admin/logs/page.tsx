@@ -75,9 +75,9 @@ export default function LogsTable() {
               <td className='text-center'>
                 <button
                   className='cgr-btn-red'
-                  onClick={() => {
+                  onClick={async () => {
                     if (confirm('Please confirm to delete this log')) {
-                      deleteLog(session.user?.token, obj._id)
+                      await deleteLog(session.user?.token, obj._id)
                       fetchData()
                     }
                   }}>

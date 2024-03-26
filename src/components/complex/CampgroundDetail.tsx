@@ -14,8 +14,10 @@ export default function CampgroundDetail({
   tel: string
   facilities: string[]
 }) {
-  const googleMapString = googleMap.split('/').slice(0, 3).join('/')
-  const websiteString = website.split('/').slice(0, 3).join('/')
+  let googleMapString
+  let websiteString
+  if (website) websiteString = website.split('/').slice(0, 3).join('/')
+  if (googleMap) googleMapString = googleMap.split('/').slice(0, 3).join('/')
 
   return (
     <div className='w-full text-wrap'>
@@ -34,25 +36,33 @@ export default function CampgroundDetail({
         <tr className='h-10'>
           <th className='w-48'>Google Map</th>
           <td>
-            <Link
-              href={googleMap}
-              target='_blank'
-              className='hover:underline hover:decoration-solid hover:decoration-1'>
-              {googleMapString}
-              <i className='bi bi-link-45deg ml-2'></i>
-            </Link>
+            {googleMap ? (
+              <Link
+                href={googleMap}
+                target='_blank'
+                className='hover:underline hover:decoration-solid hover:decoration-1'>
+                {googleMapString}
+                <i className='bi bi-link-45deg ml-2'></i>
+              </Link>
+            ) : (
+              'No link'
+            )}
           </td>
         </tr>
         <tr className='h-10'>
           <th className='w-48'>Website</th>
           <td>
-            <Link
-              href={website}
-              target='_blank'
-              className='hover:underline hover:decoration-solid hover:decoration-1'>
-              {websiteString}
-              <i className='bi bi-link-45deg ml-2'></i>
-            </Link>
+            {website ? (
+              <Link
+                href={website}
+                target='_blank'
+                className='hover:underline hover:decoration-solid hover:decoration-1'>
+                {websiteString}
+                <i className='bi bi-link-45deg ml-2'></i>
+              </Link>
+            ) : (
+              'No link'
+            )}
           </td>
         </tr>
         <tr className='h-10'>

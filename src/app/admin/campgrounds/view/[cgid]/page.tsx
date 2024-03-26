@@ -9,8 +9,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import SuspenseUI from '@/components/basic/SuspenseUI'
 
-export default async function AdminViewCampground({
+export default function AdminViewCampground({
   params,
 }: {
   params: { cgid: string }
@@ -23,11 +25,29 @@ export default async function AdminViewCampground({
     return null
   }
 
-  const campground: CampgroundItem = (await getCampground(params.cgid)).data
+  const [isReady, setIsReady] = useState(false)
+  const [campground, setCampground] = useState<CampgroundItem | null>(null)
+  const [campgroundSites, setCampgroundSites] =
+    useState<CampgroundSitesJson | null>(null)
+  const [addressString, setAddressString] = useState('')
 
-  const campgroundSites: CampgroundSitesJson = await getCampgroundSites(
-    params.cgid
-  )
+  useEffect(() => {
+    const fetchData = async () => {
+      const campground = (await getCampground(params.cgid)).data
+      setCampground(campground)
+      setCampgroundSites(await getCampgroundSites(params.cgid))
+      console.log(campground)
+
+      const address: string[] = []
+      for (let type of addressType) {
+        let data = campground.address[type]
+        address.push(data)
+      }
+      setAddressString(address.join(' '))
+    }
+    fetchData()
+    setIsReady(true)
+  }, [])
 
   const addressType: (keyof {
     houseNumber: string
@@ -47,12 +67,8 @@ export default async function AdminViewCampground({
     'province',
     'postalCode',
   ]
-  const address: string[] = []
-  for (let type of addressType) {
-    let data = campground.address[type]
-    address.push(data)
-  }
-  const addressString = address.join(' ')
+
+  if (!isReady || !campground || !campgroundSites) return <SuspenseUI />
 
   return (
     <main className='px-4 py-14 sm:px-10 md:px-16 lg:px-36 xl:px-60 2xl:px-80'>
@@ -69,11 +85,10 @@ export default async function AdminViewCampground({
               </Link>
               <button
                 className='cgr-btn-red ml-5'
-                onClick={() => {
+                onClick={async () => {
                   if (confirm('Are you sure to delete this campground?')) {
-                    deleteCampground(session.user.token, params.cgid)
+                    await deleteCampground(session.user.token, params.cgid)
                     router.back()
-                    router.refresh()
                   }
                 }}>
                 Delete
