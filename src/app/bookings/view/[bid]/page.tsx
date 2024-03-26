@@ -1,57 +1,61 @@
+'use client'
+
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import SuspenseUI from '@/components/basic/SuspenseUI'
 import CampgroundCardBooking from '@/components/basic/card/CampgroundCardBooking'
 import Card from '@/components/basic/card/Card'
+import deleteReserves from '@/libs/bookings/deleteReserve'
+import getReserve from '@/libs/bookings/getReserve'
+import getCampground from '@/libs/campgrounds/getCampground'
+import { getServerSession } from 'next-auth'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function BookingView({ params }: { params: { bid: string } }) {
-  const mockDate = new Date(Date.now())
-  const mockBookings = new Map()
+  const { data: session } = useSession()
+  if (!session || !session.user.token) return null
 
-  params.bid = 'ABC'
+  const router = useRouter()
 
-  mockBookings.set('ABC', {
-    campground: {
-      name: 'campground',
-      province: 'Bangkok',
-      tel: '012-345-6789',
-      picture: '/img/campgroundSample.jpg',
-      preferredName: 'Test',
-    },
-    site: { siteNumber: 1, zone: 'A', sitesize: '10 * 15 m.' },
-    date: '2 March 2024',
-  })
-  mockBookings.set('DEF', {
-    campground: {
-      name: 'campground',
-      province: 'Bangkok',
-      tel: '066-666-6666',
-      picture: '/img/campgroundSample.jpg',
-      preferredName: 'Test2',
-    },
-    site: { siteNumber: 1, zone: 'A', sitesize: '10 * 10 m.' },
-    date: '3 March 2024',
-  })
-  mockBookings.set('GHI', {
-    campground: {
-      name: 'campground',
-      province: 'Bangkok',
-      tel: '032-444-5555',
-      picture: '/img/campgroundSample.jpg',
-      preferredName: 'Test3',
-    },
-    site: { siteNumber: 1, zone: 'A', sitesize: '10 * 10 m.' },
-    date: '4 March 2024',
-  })
-  mockBookings.set('JKL', {
-    campground: {
-      name: 'campground',
-      province: 'Bangkok',
-      tel: '098-765-4321',
-      picture: '/img/campgroundSample.jpg',
-      preferredName: 'Test4',
-    },
-    site: { siteNumber: 1, zone: 'A', sitesize: '10 * 15 m.' },
-    date: '5 March 2024',
-  })
+  const [booking, setBooking] = useState<MyReservesItem | null>(null)
+  const [campground, setCampground] = useState<CampgroundItem | null>(null)
+  const [isReady, setIsReady] = useState(false)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const booking = (await getReserve(session.user?.token, params.bid)).data
+      const campground = (await getCampground(booking.campground._id)).data
+      setBooking(booking)
+      setCampground(campground)
+
+      console.log(booking)
+      console.log(campground)
+    }
+    fetchData()
+    setIsReady(true)
+  }, [])
+
+  if (!isReady || !campground || !booking) return <SuspenseUI />
+
+  const bookedDate = new Date(booking.startDate)
+  const reserveDate = new Date(booking.reservedAt)
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ]
 
   return (
     <main className='bg-white px-1 py-10 sm:px-10 md:px-16 lg:px-36 xl:px-72 2xl:px-96 min-h-screen'>
@@ -60,35 +64,59 @@ export default function BookingView({ params }: { params: { bid: string } }) {
           {/* header */}
           <div className='flex flex-row justify-between mb-4'>
             <h1 className='text-2xl font-bold text-cgr-dark-green'>
-              Booking Date : {mockBookings.get(params.bid).date}
+              Booking Date :{' '}
+              {bookedDate.getDate() +
+                ' ' +
+                monthNames[bookedDate.getMonth()] +
+                ', ' +
+                bookedDate.getFullYear()}
             </h1>
             <div className='flex flex-row gap-x-4'>
-              <button className='cgr-btn-outline'>Edit</button>
-              <button className='cgr-btn-red'>Delete</button>
+              <Link href={`/bookings/edit?rid=${booking._id}`}>
+                <button className='cgr-btn-outline'>Edit</button>
+              </Link>
+
+              <button
+                className='cgr-btn-red'
+                onClick={() => {
+                  if (confirm('Please confirm to delete this reserve')) {
+                    deleteReserves(session.user?.token, booking._id)
+                    router.push('/bookings')
+                  }
+                }}>
+                Delete
+              </button>
             </div>
           </div>
           <div className='grid grid-cols-2 mb-10 gap-7'>
             <div className='flex flex-col'>
-              <CampgroundCardBooking cgid={'0'} />
+              <CampgroundCardBooking cgid={campground._id} />
               <p className='text-lg mb-2'>
-                <strong>Site Number</strong> :{' '}
-                {mockBookings.get(params.bid).site.siteNumber}
+                <strong>Site Number</strong> : {booking.site.number}
               </p>
               <p className='text-lg mb-2'>
-                <strong>Zone</strong> : {mockBookings.get(params.bid).site.zone}
+                <strong>Zone</strong> : {booking.site.zone}
               </p>
               <p className='text-lg'>
                 <strong>Site Size</strong> :{' '}
-                {mockBookings.get(params.bid).site.sitesize}
+                {booking.site.size.slength + ' * ' + booking.site.size.swidth}
               </p>
             </div>
-            <Image
-              src={'/img/LoginCard.jpg'}
-              alt={'Campground pic'}
-              width={400}
-              height={200}
-              className='object-cover rounded-xl w-full h-full'
-            />
+            {campground.pictures && campground.pictures.length != 0 ? (
+              <Image
+                src={'/img/LoginCard.jpg'}
+                alt={'Campground pic'}
+                width={400}
+                height={200}
+                className='object-cover rounded-xl w-full h-full'
+              />
+            ) : (
+              <div className='w-1/4 rounded-xl shadow-none bg-cgr-gray-10 w-full h-full flex items-center justify-center'>
+                <div>
+                  <i className='bi bi-image h-full text-3xl'></i>
+                </div>
+              </div>
+            )}
           </div>
           <div className='flex justify-center'>
             <hr className='w-full' />
@@ -96,19 +124,23 @@ export default function BookingView({ params }: { params: { bid: string } }) {
           <div className='flex flex-col gap-y-3 mt-5'>
             <p className='text-lg'>
               <strong className='font-semibold'>Preferred Name</strong> :{' '}
-              {mockBookings.get(params.bid).campground.preferredName}
+              {booking.preferredName}
             </p>
             <p className='text-lg'>
               <strong className='font-semibold'>Tent size</strong> :{' '}
-              {mockBookings.get(params.bid).site.zone}
+              {booking.tentSize.slength + ' * ' + booking.tentSize.swidth}
             </p>
             <p className='text-lg'>
               <strong className='font-semibold'>Amount</strong> :{' '}
-              {mockBookings.get(params.bid).site.sitesize}
+              {booking.amount}
             </p>
             <p className='text-lg'>
               <strong className='font-semibold'>Reserved At</strong> :{' '}
-              {mockBookings.get(params.bid).site.sitesize}
+              {reserveDate.getDate() +
+                ' ' +
+                monthNames[reserveDate.getMonth()] +
+                ', ' +
+                reserveDate.getFullYear()}
             </p>
           </div>
         </div>

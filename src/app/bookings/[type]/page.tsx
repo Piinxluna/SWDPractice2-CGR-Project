@@ -340,7 +340,7 @@ export default function CreateBooking({
             </div>
             <div className='flex justify-center'>
               <button className='cgr-btn w-1/2' onClick={submit}>
-                Done
+                {submitBtnTitle}
               </button>
             </div>
           </div>
