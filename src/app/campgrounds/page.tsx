@@ -12,9 +12,7 @@ export default async function Campgrounds() {
         Campgrounds
       </div>
       <div className='h-1 w-full mt-5 mb-10 bg-cgr-dark-green rounded-xl'></div>
-      <Suspense fallback={<SuspenseUI />}>
-        <CampgroundPanelCampgrounds campgrounds={campgrounds.data} />
-      </Suspense>
+      <CampgroundPanelCampgrounds campgrounds={campgrounds.data} />
     </main>
   )
 }

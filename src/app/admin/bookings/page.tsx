@@ -6,7 +6,7 @@ import getReserves from '@/libs/bookings/getReserves'
 import { getServerSession } from 'next-auth'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 
 export default function BookingsTable() {
   const { data: session } = useSession()
@@ -17,19 +17,18 @@ export default function BookingsTable() {
   const [query, setQuery] = useState('')
 
   const fetchData = async () => {
+    setIsReady(false)
     var queryString = query.length != 0 ? `preferredName=${query}` : ''
     const bookingFromFetch: MyReservesItem[] = (
       await getReserves(session.user.token, queryString)
     ).data
     setBooking(bookingFromFetch)
+    setIsReady(true)
   }
 
   useEffect(() => {
     fetchData()
-    setIsReady(true)
   }, [])
-
-  if (!isReady) return <SuspenseUI />
 
   return (
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
@@ -62,20 +61,28 @@ export default function BookingsTable() {
           <th className='w-1/6'>Site Number</th>
           <th className='w-1/6'>View</th>
         </tr>
-        {booking.map((obj) => (
-          <tr key={obj._id}>
-            <td>{obj.preferredName}</td>
-            <td>{obj.startDate.toString()}</td>
-            <td>{obj.campground.name}</td>
-            <td className='text-center'>{obj.site.zone}</td>
-            <td className='text-center'>{obj.site.number}</td>
-            <td className='text-center'>
-              <Link href={`/booking/view/${obj._id}`}>
-                <button className='cgr-btn-outline-gray'>View</button>
-              </Link>
+        {isReady ? (
+          booking.map((obj) => (
+            <tr key={obj._id}>
+              <td>{obj.preferredName}</td>
+              <td>{obj.startDate.toString()}</td>
+              <td>{obj.campground.name}</td>
+              <td className='text-center'>{obj.site.zone}</td>
+              <td className='text-center'>{obj.site.number}</td>
+              <td className='text-center'>
+                <Link href={`/booking/view/${obj._id}`}>
+                  <button className='cgr-btn-outline-gray'>View</button>
+                </Link>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={5}>
+              <SuspenseUI />
             </td>
           </tr>
-        ))}
+        )}
       </table>
     </main>
   )

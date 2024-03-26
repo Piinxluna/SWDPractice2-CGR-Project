@@ -2,7 +2,7 @@ export default async function getReserves(token: string, query?: string) {
   console.log(query)
 
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/reserves?${query}`,
+    `${process.env.BACKEND_URL}/api/reserves?${query}&limit=1000`,
     {
       method: 'GET',
       headers: { authorization: `Bearer ${token}` },
