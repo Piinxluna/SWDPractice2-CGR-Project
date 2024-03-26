@@ -78,9 +78,9 @@ export default function BookingView({ params }: { params: { bid: string } }) {
 
               <button
                 className='cgr-btn-red'
-                onClick={() => {
+                onClick={async () => {
                   if (confirm('Please confirm to delete this reserve')) {
-                    deleteReserves(session.user?.token, booking._id)
+                    await deleteReserves(session.user?.token, booking._id)
                     router.push('/bookings')
                   }
                 }}>
