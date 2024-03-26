@@ -52,7 +52,7 @@ export default function CampgroundsTable() {
           </button>
         </div>
         <Link href='/admin/campgrounds/create' className='w-full md:w-fit'>
-          <button className='cgr-btn w-full md:w-fit'>Creat Campground</button>
+          <button className='cgr-btn w-full md:w-fit'>Create Campground</button>
         </Link>
       </div>
       <table className='cgr-table'>
