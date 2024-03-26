@@ -1,25 +1,28 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+'use client'
+
 import Card from '@/components/basic/card/Card'
 import CampgroundDetail from '@/components/complex/CampgroundDetail'
+import deleteCampground from '@/libs/campgrounds/deleteCampground'
 import getCampground from '@/libs/campgrounds/getCampground'
 import getCampgroundSites from '@/libs/campgrounds/getCampgroundSites'
-import { getServerSession } from 'next-auth'
 import Image from 'next/image'
 import Link from 'next/link'
-import {
-  Key,
-  ReactElement,
-  JSXElementConstructor,
-  ReactNode,
-  ReactPortal,
-  AwaitedReactNode,
-} from 'react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export default async function AdminViewCampground({
   params,
 }: {
   params: { cgid: string }
 }) {
+  const router = useRouter()
+
+  const { data: session } = useSession()
+  if (!session || !session.user.token || session.user.role !== 'admin') {
+    router.replace('/')
+    return null
+  }
+
   const campground: CampgroundItem = (await getCampground(params.cgid)).data
 
   const campgroundSites: CampgroundSitesJson = await getCampgroundSites(
@@ -46,8 +49,8 @@ export default async function AdminViewCampground({
   ]
   const address: string[] = []
   for (let type of addressType) {
-    let sth = campground.address[type]
-    address.push(sth)
+    let data = campground.address[type]
+    address.push(data)
   }
   const addressString = address.join(' ')
 
@@ -64,7 +67,17 @@ export default async function AdminViewCampground({
               <Link href={`/admin/campgrounds/edit?cgid=${params.cgid}`}>
                 <button className='cgr-btn-outline'>Edit</button>
               </Link>
-              <button className='cgr-btn-red ml-5'>Delete</button>
+              <button
+                className='cgr-btn-red ml-5'
+                onClick={() => {
+                  if (confirm('Are you sure to delete this campground?')) {
+                    deleteCampground(session.user.token, params.cgid)
+                    router.back()
+                    router.refresh()
+                  }
+                }}>
+                Delete
+              </button>
             </div>
           </div>
 
