@@ -7,6 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import { styled } from '@mui/material/styles'
 import Button from '@mui/material/Button'
+import Autocomplete from '@mui/material/Autocomplete'
 import { useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
@@ -16,6 +17,9 @@ import createCampground from '@/libs/campgrounds/createCampground'
 import updateCampground from '@/libs/campgrounds/updateCampground'
 import Card from '@/components/basic/card/Card'
 import SuspenseUI from '@/components/basic/SuspenseUI'
+import getProvinces from '@/libs/thaidatas/getProvinces'
+import getDistricts from '@/libs/thaidatas/getDistricts'
+import getSubDistricts from '@/libs/thaidatas/getSubDistricts'
 
 export default function CreateCampground({
   params,
@@ -37,14 +41,22 @@ export default function CreateCampground({
   const paramsCgid = urlParams.get('cgid')
 
   const [isReady, setIsReady] = useState(false)
+  const [provincesList, setProvincesList] = useState([])
+  const [districtsList, setDistrictsList] = useState([])
+  const [subDistrictsList, setSubDistrictsList] = useState([])
+  interface optionType {
+    id: number
+    name: string
+  }
+
   const [name, setName] = useState('')
   const [tel, setTel] = useState('')
   const [houseNum, setHouseNum] = useState('')
   const [lane, setLane] = useState('')
   const [road, setRoad] = useState('')
-  const [subdistrict, setSubdistrict] = useState('')
-  const [district, setDistrict] = useState('')
-  const [province, setProvince] = useState('')
+  const [subdistrict, setSubdistrict] = useState<optionType | null>(null)
+  const [district, setDistrict] = useState<optionType | null>(null)
+  const [province, setProvince] = useState<optionType | null>(null)
   const [postalCode, setPostalCode] = useState('')
   const [googleMap, setGoogleMap] = useState('')
   const [website, setWebsite] = useState('')
@@ -104,9 +116,9 @@ export default function CreateCampground({
         houseNumber: houseNum,
         lane,
         road,
-        subDistrict: subdistrict,
-        district,
-        province,
+        subDistrict: subdistrict.name,
+        district: district.name,
+        province: province.name,
         postalCode,
         link: googleMap,
       }
@@ -179,8 +191,56 @@ export default function CreateCampground({
       }
       fetchData()
     }
+
+    const fetchProvinces = async () => {
+      const provinces = await getProvinces()
+      setProvincesList(
+        provinces.map((element: any) => ({
+          id: element.id,
+          name: element.name_en,
+        }))
+      )
+    }
+    fetchProvinces()
+
     setIsReady(true)
   }, [])
+
+  useEffect(() => {
+    const fetchDistrict = async () => {
+      if (province) {
+        const districts = await getDistricts(province.id)
+        console.log(districts)
+        setDistrictsList(
+          districts.map((element: any) => ({
+            id: element.id,
+            name: element.name_en,
+          }))
+        )
+      }
+    }
+    fetchDistrict()
+
+    setDistrict(null)
+    setSubdistrict(null)
+  }, [province])
+
+  useEffect(() => {
+    const fetchSubDistrict = async () => {
+      if (district) {
+        const subdistricts = await getSubDistricts(district.id)
+        setSubDistrictsList(
+          subdistricts.map((element: any) => ({
+            id: element.id,
+            name: element.name_en,
+          }))
+        )
+      }
+    }
+    fetchSubDistrict()
+
+    setSubdistrict(null)
+  }, [district])
 
   if (!isReady) return <SuspenseUI />
 
@@ -258,7 +318,7 @@ export default function CreateCampground({
                     setRoad(event.target.value)
                   }}
                 />
-                <TextField
+                {/* <TextField
                   required
                   id='subdistrict'
                   label='Sub-district'
@@ -293,6 +353,66 @@ export default function CreateCampground({
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     setProvince(event.target.value)
                   }}
+                /> */}
+                <Autocomplete
+                  disablePortal
+                  id='subdistrict'
+                  options={subDistrictsList}
+                  getOptionLabel={(option: optionType) => `${option.name}`}
+                  size='small'
+                  onChange={(event, newValue) => {
+                    if (newValue) {
+                      setSubdistrict({ name: newValue.name, id: newValue.id })
+                    }
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      required
+                      {...params}
+                      label='Sub-district'
+                      value={subdistrict}
+                    />
+                  )}
+                />
+                <Autocomplete
+                  disablePortal
+                  id='district'
+                  options={districtsList}
+                  getOptionLabel={(option: optionType) => `${option.name}`}
+                  size='small'
+                  onChange={(event, newValue) => {
+                    if (newValue) {
+                      setDistrict({ name: newValue.name, id: newValue.id })
+                    }
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      required
+                      {...params}
+                      label='District'
+                      value={district}
+                    />
+                  )}
+                />
+                <Autocomplete
+                  disablePortal
+                  id='province'
+                  options={provincesList}
+                  getOptionLabel={(option: optionType) => `${option.name}`}
+                  size='small'
+                  onChange={(event, newValue) => {
+                    if (newValue) {
+                      setProvince({ name: newValue.name, id: newValue.id })
+                    }
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      required
+                      {...params}
+                      label='Province'
+                      value={province}
+                    />
+                  )}
                 />
                 <TextField
                   required
