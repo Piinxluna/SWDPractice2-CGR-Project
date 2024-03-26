@@ -104,7 +104,7 @@ export default function BookingView({ params }: { params: { bid: string } }) {
             </div>
             {campground.pictures && campground.pictures.length != 0 ? (
               <Image
-                src={'/img/LoginCard.jpg'}
+                src={`${process.env.BACKEND_URL}/images/${campground.pictures[0]}`}
                 alt={'Campground pic'}
                 width={400}
                 height={200}
