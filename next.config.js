@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['swd-practice-cgr-project.vercel.app'],
+    domains: ['swd-practice-cgr-project.vercel.app', 'localhost'],
   },
   env: {
     FRONTEND_URL: process.env.FRONTEND_URL,

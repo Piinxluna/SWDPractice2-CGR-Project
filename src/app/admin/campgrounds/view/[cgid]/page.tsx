@@ -50,6 +50,7 @@ export default function AdminViewCampground({
 
   useEffect(() => {
     fetchData()
+
     setIsReady(true)
   }, [])
 
