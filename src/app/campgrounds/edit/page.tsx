@@ -44,7 +44,7 @@ export default function Component() {
 
     <main className='bg-white px-4 py-4 sm:px-10 md:px-16 lg:px-36 xl:px-72 2xl:px-96 min-h-screen '>
         <h1 className='text-4xl font-bold text-cgr-dark-green py-6'>
-            Create Campground
+            Edit Campground
         </h1>
         <Card>
             <div className='px-6'>
