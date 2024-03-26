@@ -4,6 +4,7 @@ export default async function getReserve(token: string, rid: string) {
     {
       method: 'GET',
       headers: { authorization: `Bearer ${token}` },
+      cache: 'no-store',
     }
   )
 

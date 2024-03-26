@@ -19,9 +19,9 @@ export default function NavbarDropdownItem() {
           className='absolute bg-cgr-white py-5 px-7 rounded-lg shadow-lg mt-6 flex flex-col gap-y-4'
           onClick={handleHover}>
           <NavbarItem path='/admin/campgrounds'>Campgrounds</NavbarItem>
-          <NavbarItem path='/admin/bookings'>Booking</NavbarItem>
-          <NavbarItem path='/admin/users'>users</NavbarItem>
-          <NavbarItem path='/admin/logs'>logs</NavbarItem>
+          <NavbarItem path='/admin/bookings'>Bookings</NavbarItem>
+          <NavbarItem path='/admin/users'>Users</NavbarItem>
+          <NavbarItem path='/admin/logs'>Logs</NavbarItem>
         </div>
       ) : (
         ''

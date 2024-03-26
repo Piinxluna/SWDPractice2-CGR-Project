@@ -6,6 +6,7 @@ export default async function getReserves(token: string, query?: string) {
     {
       method: 'GET',
       headers: { authorization: `Bearer ${token}` },
+      cache: 'no-store',
     }
   )
 
