@@ -48,7 +48,7 @@ export default async function ViewCampgroundSite({
   const year = today.getFullYear()
 
   const lastDay = new Date(year, month + 2, 0)
-  const lastMonth = lastDay.getMonth()
+  const lastMonth = lastDay.getMonth() + 1
   const lastYear = lastDay.getFullYear()
 
   const reserveDateJson: BookedReservesJson = await getBookedReserves(
@@ -59,13 +59,13 @@ export default async function ViewCampgroundSite({
   })
 
   const firstMonthReserveDate: Date[] = reserveDate.filter(
-    (obj) => obj.getMonth() + 1 === month
+    (obj) => obj.getMonth() + 1 == month
   )
   const secondMonthReserveDate: Date[] = reserveDate.filter(
-    (obj) => obj.getMonth() + 1 !== month && obj.getMonth() + 1 !== lastMonth
+    (obj) => obj.getMonth() + 1 != month && obj.getMonth() + 1 != lastMonth
   )
   const thirdMonthReserveDate: Date[] = reserveDate.filter(
-    (obj) => obj.getMonth() + 1 === lastMonth
+    (obj) => obj.getMonth() + 1 == lastMonth
   )
 
   let firstMonthReserve: number[] = []
