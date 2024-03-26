@@ -127,7 +127,7 @@ export default function createCampground({
       callAPI()
       router.push(`/admin/campgrounds/view/${params.cgid}`)
       alert(
-        `${title} campground site successfully. Please refresh the profile page if your data is not updated`
+        `${title} campground site successfully. Please refresh page if your data is not updated`
       )
     }
   }

@@ -157,7 +157,7 @@ export default function CreateCampground({
       }
       callAPI()
       alert(
-        `${title} campground successfully. Please refresh the profile page if your data is not updated`
+        `${title} campground successfully. Please refresh page if your data is not updated`
       )
       router.push('/admin/campgrounds')
     } else {

@@ -109,7 +109,7 @@ export default async function ViewCampgroundSite({
               facilities={campground.facilities}
             />
             <Link
-              href={`/bookings/create?sid=${params.sid}`}
+              href={`/bookings/create?sid=${params.sid}&cgid=${params.cgid}`}
               className='right-0 w-full lg:w-fit h-fit self-end mt-5'>
               <button className='cgr-btn'>Book Now</button>
             </Link>
