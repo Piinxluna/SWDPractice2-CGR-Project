@@ -11,6 +11,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import SuspenseUI from '@/components/basic/SuspenseUI'
+import deleteCampgroundSite from '@/libs/campgrounds/deleteCampgroundSite'
 
 export default function AdminViewCampground({
   params,
@@ -31,20 +32,23 @@ export default function AdminViewCampground({
     useState<CampgroundSitesJson | null>(null)
   const [addressString, setAddressString] = useState('')
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const campground = (await getCampground(params.cgid)).data
-      setCampground(campground)
-      setCampgroundSites(await getCampgroundSites(params.cgid))
-      console.log(campground)
+  const fetchData = async () => {
+    setIsReady(false)
+    const campground = (await getCampground(params.cgid)).data
+    setCampground(campground)
+    setCampgroundSites(await getCampgroundSites(params.cgid))
+    console.log(campground)
 
-      const address: string[] = []
-      for (let type of addressType) {
-        let data = campground.address[type]
-        address.push(data)
-      }
-      setAddressString(address.join(' '))
+    const address: string[] = []
+    for (let type of addressType) {
+      let data = campground.address[type]
+      address.push(data)
     }
+    setAddressString(address.join(' '))
+    setIsReady(true)
+  }
+
+  useEffect(() => {
     fetchData()
     setIsReady(true)
   }, [])
@@ -144,21 +148,35 @@ export default function AdminViewCampground({
               <th>Zone</th>
               <th>Site Number</th>
               <th>Size</th>
-              <th>View</th>
+              <th>Edit</th>
               <th>Delete</th>
             </tr>
             {campgroundSites.sites.map((obj) => (
-              <tr key={obj._id} className='text-center'>
+              <tr className='text-center'>
                 <td>{obj.zone}</td>
                 <td>{obj.number}</td>
                 <td>{obj.size.swidth + '*' + obj.size.slength}</td>
                 <td>
-                  <Link href={`/campgrounds/view/${params.cgid}/${obj._id}`}>
-                    <button className='cgr-btn-outline-gray'>view</button>
+                  <Link
+                    href={`/admin/campgrounds/edit/${params.cgid}?sid=${obj._id}`}>
+                    <button className='cgr-btn-outline-gray'>edit</button>
                   </Link>
                 </td>
                 <td>
-                  <button className='cgr-btn-outline-red'>delete</button>
+                  <button
+                    className='cgr-btn-red'
+                    onClick={async () => {
+                      if (confirm('Please confirm to delete this site')) {
+                        await deleteCampgroundSite(
+                          session.user?.token,
+                          params.cgid,
+                          obj._id
+                        )
+                        fetchData()
+                      }
+                    }}>
+                    delete
+                  </button>
                 </td>
               </tr>
             ))}
