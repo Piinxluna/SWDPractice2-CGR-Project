@@ -20,6 +20,7 @@ export default function EditUser() {
 
   const urlParams = useSearchParams()
   const paramsUid = urlParams.get('uid')
+  if (!paramsUid) return <h1>Please provide user id</h1>
 
   const [isReady, setIsReady] = useState(false)
   const [name, setName] = useState('')
