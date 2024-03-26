@@ -104,6 +104,7 @@ export default function CreateBooking({
 
     if (params.type === 'edit') {
       const fetchData = async () => {
+        if (!paramsRid) return null
         const reserve = (await getReserve(session.user.token, paramsRid)).data
         setCgid(reserve.campground._id)
         const sites = (
