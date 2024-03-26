@@ -5,19 +5,19 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '../api/auth/[...nextauth]/route'
 import Link from 'next/link'
 
-export default async function Home() {
+export default async function Bookings() {
   const session = await getServerSession(authOptions)
   if (!session || !session.user.token) return null
 
   const queryString1: string =
-    'startDate[gte]=' +
+    'sort=startDate&startDate[gte]=' +
     new Date(Date.now()).getFullYear() +
     '-' +
     (new Date(Date.now()).getMonth() + 1) +
     '-' +
     new Date(Date.now()).getDate()
   const queryString2: string =
-    'startDate[lt]=' +
+    'sort=startDate&startDate[lt]=' +
     new Date(Date.now()).getFullYear() +
     '-' +
     (new Date(Date.now()).getMonth() + 1) +
@@ -35,7 +35,9 @@ export default async function Home() {
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
       <div className='flex flex-row flex-wrap justify-between items-baseline space-y-2 mb-8'>
         <div></div>
-        <button className='cgr-btn w-full md:w-fit'>Book more</button>
+        <Link href='/bookings/create'>
+          <button className='cgr-btn w-full md:w-fit'>Book more</button>
+        </Link>
       </div>
       {incomingBooking.length != 0 ? (
         <div className='mb-24'>

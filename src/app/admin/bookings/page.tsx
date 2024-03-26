@@ -70,7 +70,7 @@ export default function BookingsTable() {
               <td className='text-center'>{obj.site.zone}</td>
               <td className='text-center'>{obj.site.number}</td>
               <td className='text-center'>
-                <Link href={`/booking/view/${obj._id}`}>
+                <Link href={`/bookings/view/${obj._id}`}>
                   <button className='cgr-btn-outline-gray'>View</button>
                 </Link>
               </td>

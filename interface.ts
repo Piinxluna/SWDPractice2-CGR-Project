@@ -116,6 +116,10 @@ interface MyReservesItem {
   startDate: Date
   amount: number
   reservedAt: Date
+  tentSize: {
+    swidth: number
+    slength: number
+  }
 }
 
 interface MyReservesJson {
