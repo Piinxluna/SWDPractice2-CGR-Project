@@ -169,7 +169,7 @@ export default function Component() {
               />
             </div>
           </div>
-          <div className='flex justify-center'>
+          <div className='flex justify-center py-6'>
             <button className='cgr-btn w-1/2'>Done</button>
           </div>
         </div>
