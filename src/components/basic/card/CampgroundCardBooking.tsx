@@ -3,60 +3,32 @@ import Card from './Card'
 import Image from 'next/image'
 import Tag from '../Tag'
 
-export default function CampgroundCardBooking({
-  campground,
-}: {
-  campground: CampgroundItem
-}) {
+export default function CampgroundCardBooking({ cgid }: { cgid: string }) {
+  // const googleMapString = googleMap.split('/').slice(0, 3).join('/')
+  // const websiteString = website.split('/').slice(0, 3).join('/')
+
   return (
-    // <Link
-    //   href={`/campgrounds/view/${campground._id}`}
-    //   className='hover:scale-105 duration-300'>
-    //   <Card>
-    //     <div className='p-0 flex flex-row'>
-    //       {campground.pictures.length != 0 ? (
-    //         <Image
-    //           src={`${process.env.BACKEND_URL}/images/${campground.pictures[0]}`}
-    //           alt={`${campground.name} picture`}
-    //           width={0}
-    //           height={0}
-    //           sizes='100vw'
-    //           className='object-cover w-1/4 rounded-l-xl shadow-none'></Image>
-    //       ) : (
-    //         <div className='w-1/4 rounded-l-xl shadow-none bg-cgr-light-green'></div>
-    //       )}
-    //       <div className='w-3/4 p-6'>
-    //         {/* Card Title */}
-    //         <div className='mb-4'>
-    //           <p className='text-2xl font-bold text-cgr-black'>
-    //             {campground.name}
-    //           </p>
-    //           <p className='text-md font-light'>
-    //             {campground.address.province}
-    //           </p>
-    //         </div>
-
-    //         {/* Card Detail */}
-    //         <div className='my-4 flex flex-col space-y-1 text-sm'>
-    //           <div className='flex flex-row'>
-    //             <i className='bi bi-signpost-split w-fill me-3'></i>
-    //             <p>Site number : {campground.amount}</p>
-    //           </div>
-    //           <div className='flex flex-row'>
-    //             <i className='bi bi-telephone w-fill me-3'></i>
-    //             <p className=''>Tel : {campground.tel}</p>
-    //           </div>
-    //         </div>
-
-    //         {/* Booking Date */}
-    //         <div className='flex flex-row flex-wrap space-x-2'>
-    //           {campground.facilities.map((data) => (
-    //             <Tag size='xs'>{data}</Tag>
-    //           ))}
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </Card>
-    // </Link>
+    <Link
+      href={`/campgrounds/view/${cgid}`}
+      className='border border-[3px] border-cgr-light-green px-8 py-5 rounded-2xl mb-4 w-full relative'>
+      <div className='flex flex-col'>
+        <h1 className='text-xl font-semibold'>Campground Name</h1>
+        <h2 className='text-md'>Province</h2>
+      </div>
+      <div className='flex flex-col mt-4'>
+        <div>
+          <i className='bi bi-compass mr-2'></i> Website : {'mock'}
+        </div>
+        <div>
+          <i className='bi bi-map mr-2'></i> Map : {'Map'}
+        </div>
+        <div>
+          <i className='bi bi-telephone mr-2'></i> Tel : {'Tel'}
+        </div>
+      </div>
+      <div className='text-cgr-dark-green absolute top-5 right-5 text-2xl hover:text-4xl duration-300'>
+        <i className='bi bi-arrow-right-circle-fill'></i>
+      </div>
+    </Link>
   )
 }

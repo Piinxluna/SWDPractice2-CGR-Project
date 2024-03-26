@@ -1,6 +1,6 @@
 export default async function getUsers(token: string, query?: string) {
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/users?${query}`,
+    `${process.env.BACKEND_URL}/api/users?${query}&limit=1000`,
     {
       method: 'GET',
       headers: { authorization: `Bearer ${token}` },

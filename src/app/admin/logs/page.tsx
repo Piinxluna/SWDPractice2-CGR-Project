@@ -1,24 +1,57 @@
+'use client'
+
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import SuspenseUI from '@/components/basic/SuspenseUI'
+import deleteLog from '@/libs/log/deleteLog'
 import getLogs from '@/libs/log/getLogs'
 import { getServerSession } from 'next-auth'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
-export default async function LogsTable() {
-  const session = await getServerSession(authOptions)
+export default function LogsTable() {
+  const { data: session } = useSession()
   if (!session || !session.user.token) return null
 
-  const logsJson: LogJson = await getLogs(session.user?.token)
-  const logs: LogItem[] = logsJson.data
+  const [logs, setLogs] = useState<LogItem[]>([])
+  const [isReady, setIsReady] = useState(false)
+  const [query, setQuery] = useState('')
+
+  const fetchData = async () => {
+    setIsReady(false)
+    var queryString = query.length != 0 ? `user=${query}` : ''
+    const logsFromFetch: LogItem[] = (
+      await getLogs(session.user?.token, queryString)
+    ).data
+    setLogs(logsFromFetch)
+    setIsReady(true)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return (
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
       <h1 className='text-cgr-black text-4xl font-bold mb-4'>Logs</h1>
       <div className='flex flex-row flex-wrap justify-start items-baseline space-x-3 space-y-2 mb-8 w-full'>
-        <input
-          type='text'
-          className='cgr-search-box placeholder-cgr-dark-green w-54 md:w-128'
-          placeholder='Find something...'
-        />
+        <div className='flex flex-row w-full md:w-fit space-x-3'>
+          <input
+            type='text'
+            className='cgr-search-box placeholder-cgr-dark-green w-full'
+            placeholder='Find something...'
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setQuery(event.target.value)
+            }
+          />
+          <button
+            className='cgr-btn'
+            onClick={() => {
+              fetchData()
+            }}>
+            Search
+          </button>
+        </div>
       </div>
       <table className='cgr-table'>
         <tr className='h-10'>
@@ -28,30 +61,38 @@ export default async function LogsTable() {
           <th className='w-2/12'>View user</th>
           <th className='w-2/12'>Delete</th>
         </tr>
-        {logs.map((obj) => (
-          <tr key={obj._id}>
-            <td>{obj.user}</td>
-            <td>{new Date(obj.accessedAt).toUTCString()}</td>
-            <td className='text-center'>{obj.action}</td>
-            <td className='text-center'>
-              <Link href={`/admin/users/view/${obj.user}`}>
-                <button className='cgr-btn-outline-gray'>View User</button>
-              </Link>
-            </td>
-            <td className='text-center'>
-              <button
-                className='cgr-btn-red'
-                // onClick={() => {
-                //   if (confirm('Please confirm to delete this log')) {
-                //     // Delete
-                //   }
-                // }}
-              >
-                Delete
-              </button>
+        {isReady ? (
+          logs.map((obj) => (
+            <tr key={obj._id}>
+              <td>{obj.user}</td>
+              <td>{new Date(obj.accessedAt).toUTCString()}</td>
+              <td className='text-center'>{obj.action}</td>
+              <td className='text-center'>
+                <Link href={`/admin/users/view/${obj.user}`}>
+                  <button className='cgr-btn-outline-gray'>View User</button>
+                </Link>
+              </td>
+              <td className='text-center'>
+                <button
+                  className='cgr-btn-red'
+                  onClick={() => {
+                    if (confirm('Please confirm to delete this log')) {
+                      deleteLog(session.user?.token, obj._id)
+                      fetchData()
+                    }
+                  }}>
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={5}>
+              <SuspenseUI />
             </td>
           </tr>
-        ))}
+        )}
       </table>
     </main>
   )
