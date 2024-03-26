@@ -1,13 +1,34 @@
+'use client'
+
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import SuspenseUI from '@/components/basic/SuspenseUI'
 import getUsers from '@/libs/users/getUsers'
 import { getServerSession } from 'next-auth'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
-export default async function UsersTable() {
-  const session = await getServerSession(authOptions)
+export default function UsersTable() {
+  const { data: session } = useSession()
   if (!session || !session.user.token) return null
 
-  const user: UserItem[] = (await getUsers(session.user?.token)).data
+  const [user, setUser] = useState<UserItem[]>([])
+  const [isReady, setIsReady] = useState(false)
+  const [query, setQuery] = useState('')
+
+  const fetchData = async () => {
+    setIsReady(false)
+    var queryString = query.length != 0 ? `name=${query}` : ''
+    const userFromFetch: UserItem[] = (
+      await getUsers(session.user?.token, queryString)
+    ).data
+    setUser(userFromFetch)
+    setIsReady(true)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return (
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
@@ -18,7 +39,17 @@ export default async function UsersTable() {
             type='text'
             className='cgr-search-box placeholder-cgr-dark-green w-full'
             placeholder='Find something...'
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setQuery(event.target.value)
+            }
           />
+          <button
+            className='cgr-btn'
+            onClick={() => {
+              fetchData()
+            }}>
+            Search
+          </button>
         </div>
       </div>
       <table className='cgr-table'>
@@ -29,19 +60,27 @@ export default async function UsersTable() {
           <th className='w-1/6'>Role</th>
           <th className='w-1/6'>View</th>
         </tr>
-        {user.map((obj) => (
-          <tr key={obj._id}>
-            <td>{obj.name}</td>
-            <td>{obj.email}</td>
-            <td>{obj.tel}</td>
-            <td className='text-center'>{obj.role}</td>
-            <td className='text-center'>
-              <Link href={`/admin/users/view/${obj._id}`}>
-                <button className='cgr-btn-outline-gray'>View</button>
-              </Link>
+        {isReady ? (
+          user.map((obj) => (
+            <tr key={obj._id}>
+              <td>{obj.name}</td>
+              <td>{obj.email}</td>
+              <td>{obj.tel}</td>
+              <td className='text-center'>{obj.role}</td>
+              <td className='text-center'>
+                <Link href={`/admin/users/view/${obj._id}`}>
+                  <button className='cgr-btn-outline-gray'>View</button>
+                </Link>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={5}>
+              <SuspenseUI />
             </td>
           </tr>
-        ))}
+        )}
       </table>
     </main>
   )

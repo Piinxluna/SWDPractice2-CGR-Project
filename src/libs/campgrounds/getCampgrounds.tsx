@@ -1,6 +1,6 @@
 export default async function getCampgrounds(query?: string) {
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/campgrounds?${query}`
+    `${process.env.BACKEND_URL}/api/campgrounds?${query}&limit=1000`
   )
 
   if (!response.ok) {

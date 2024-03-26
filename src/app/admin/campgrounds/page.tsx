@@ -1,13 +1,34 @@
+'use client'
+
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import SuspenseUI from '@/components/basic/SuspenseUI'
 import getCampgrounds from '@/libs/campgrounds/getCampgrounds'
 import { getServerSession } from 'next-auth'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
-export default async function CampgroundsTable() {
-  const session = await getServerSession(authOptions)
+export default function CampgroundsTable() {
+  const { data: session } = useSession()
   if (!session || !session.user.token) return null
 
-  const campground: CampgroundItem[] = (await getCampgrounds()).data
+  const [campground, setCampground] = useState<CampgroundItem[]>([])
+  const [isReady, setIsReady] = useState(false)
+  const [query, setQuery] = useState('')
+
+  const fetchData = async () => {
+    setIsReady(false)
+    var queryString = query.length != 0 ? `name=${query}` : ''
+    const campgroundFromFetch: CampgroundItem[] = (
+      await getCampgrounds(queryString)
+    ).data
+    setCampground(campgroundFromFetch)
+    setIsReady(true)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return (
     <main className='bg-cgr-gray-10 p-16 w-screen min-h-screen'>
@@ -18,10 +39,20 @@ export default async function CampgroundsTable() {
             type='text'
             className='cgr-search-box placeholder-cgr-dark-green w-full'
             placeholder='Find something...'
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setQuery(event.target.value)
+            }
           />
+          <button
+            className='cgr-btn'
+            onClick={() => {
+              fetchData()
+            }}>
+            Search
+          </button>
         </div>
         <Link href='/admin/campgrounds/create' className='w-full md:w-fit'>
-          <button className='cgr-btn w-full md:w-fit'>Creat Campground</button>
+          <button className='cgr-btn w-full md:w-fit'>Create Campground</button>
         </Link>
       </div>
       <table className='cgr-table'>
@@ -32,19 +63,27 @@ export default async function CampgroundsTable() {
           <th className='w-1/6'>Site amount</th>
           <th className='w-1/6'>View</th>
         </tr>
-        {campground.map((obj) => (
-          <tr key={obj._id}>
-            <td>{obj.name}</td>
-            <td>{obj.address.province}</td>
-            <td>{obj.tel}</td>
-            <td className='text-center'>{obj.amount}</td>
-            <td className='text-center'>
-              <Link href={`/admin/campgrounds/view/${obj._id}`}>
-                <button className='cgr-btn-outline-gray'>View</button>
-              </Link>
+        {isReady ? (
+          campground.map((obj) => (
+            <tr key={obj._id}>
+              <td>{obj.name}</td>
+              <td>{obj.address.province}</td>
+              <td>{obj.tel}</td>
+              <td className='text-center'>{obj.amount}</td>
+              <td className='text-center'>
+                <Link href={`/admin/campgrounds/view/${obj._id}`}>
+                  <button className='cgr-btn-outline-gray'>View</button>
+                </Link>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={5}>
+              <SuspenseUI />
             </td>
           </tr>
-        ))}
+        )}
       </table>
     </main>
   )
