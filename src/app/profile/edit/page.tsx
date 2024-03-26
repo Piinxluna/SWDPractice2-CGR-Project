@@ -6,8 +6,8 @@ import { TextField } from '@mui/material'
 import { useRouter } from 'next/navigation'
 
 import Card from '@/components/basic/card/Card'
-import getMe from '@/libs/users/getMe'
 import SuspenseUI from '@/components/basic/SuspenseUI'
+import getMe from '@/libs/users/getMe'
 import updateMe from '@/libs/users/updateMe'
 import deleteMe from '@/libs/users/deleteMe'
 
