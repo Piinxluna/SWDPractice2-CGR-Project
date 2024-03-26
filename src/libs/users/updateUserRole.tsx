@@ -1,26 +1,25 @@
 export default async function updateUser(
-    token: string,
-    uid : string,
-    role : string
-  ) 
-  {
-    let bodyData = {role:role}
-  
-    console.log(bodyData)
-  
-    const response = await fetch(`${process.env.BACKEND_URL}/api/users/${uid}`, {
+  token: string,
+  uid: string,
+  role: string
+) {
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/api/users/update-role/${uid}`,
+    {
       method: 'PUT',
       headers: {
         authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(bodyData),
-    })
-  
-    if (!response.ok) {
-      throw new Error("Cannot update user's role")
+      body: JSON.stringify({
+        role: role,
+      }),
     }
-  
-    return await response.json()
+  )
+
+  if (!response.ok) {
+    throw new Error("Cannot update user's role")
   }
-  
+
+  return await response.json()
+}

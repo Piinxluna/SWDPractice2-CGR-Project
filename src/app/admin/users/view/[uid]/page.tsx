@@ -4,6 +4,7 @@ import Card from '@/components/basic/card/Card'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import getUser from '@/libs/users/getUser'
+import deleteUser from '@/libs/users/deleteUser'
 
 export default async function AdminViewUser({
   params,
@@ -34,7 +35,6 @@ export default async function AdminViewUser({
             <Link href={`/admin/users/edit?uid=${params.uid}`}>
               <button className='cgr-btn-outline'>Edit</button>
             </Link>
-            <button className='cgr-btn-red'>Delete</button>
           </div>
         </div>
       </Card>
