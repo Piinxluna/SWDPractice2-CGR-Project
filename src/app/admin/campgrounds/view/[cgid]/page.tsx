@@ -37,7 +37,6 @@ export default function AdminViewCampground({
     const campground = (await getCampground(params.cgid)).data
     setCampground(campground)
     setCampgroundSites(await getCampgroundSites(params.cgid))
-    console.log(campground)
 
     const address: string[] = []
     for (let type of addressType) {
