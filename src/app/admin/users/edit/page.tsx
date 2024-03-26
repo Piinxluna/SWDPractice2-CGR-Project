@@ -1,13 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 import Card from '@/components/basic/card/Card'
 import SuspenseUI from '@/components/basic/SuspenseUI'
-import deleteMe from '@/libs/users/deleteMe'
 import getUser from '@/libs/users/getUser'
 import updateUser from '@/libs/users/updateUser'
 import updateUserRole from '@/libs/users/updateUserRole'
@@ -16,7 +15,10 @@ import deleteUser from '@/libs/users/deleteUser'
 export default function EditUser() {
   const router = useRouter()
   const { data: session } = useSession()
-  if (!session || !session.user.token) return null
+  if (!session || !session.user.token || session.user.role !== 'admin') {
+    router.replace('/')
+    return null
+  }
 
   const urlParams = useSearchParams()
   const paramsUid = urlParams.get('uid')
@@ -118,7 +120,7 @@ export default function EditUser() {
               labelId='Role'
               id='role'
               value={role}
-              label='Age'
+              size='small'
               onChange={(event: SelectChangeEvent) => {
                 setRole(event.target.value)
               }}

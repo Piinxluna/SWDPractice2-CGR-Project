@@ -10,7 +10,6 @@ import {
 } from '@mui/material'
 
 import Card from '@/components/basic/card/Card'
-import CGRCheckBox from '@/components/template/CheckBox'
 import SuspenseUI from '@/components/basic/SuspenseUI'
 import getCampground from '@/libs/campgrounds/getCampground'
 import { useSearchParams } from 'next/navigation'

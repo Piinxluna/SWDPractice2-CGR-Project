@@ -1,16 +1,20 @@
 'use client'
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import SuspenseUI from '@/components/basic/SuspenseUI'
 import getCampgrounds from '@/libs/campgrounds/getCampgrounds'
-import { getServerSession } from 'next-auth'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function CampgroundsTable() {
+  const router = useRouter()
+
   const { data: session } = useSession()
-  if (!session || !session.user.token) return null
+  if (!session || !session.user.token || session.user.role !== 'admin') {
+    router.replace('/')
+    return null
+  }
 
   const [campground, setCampground] = useState<CampgroundItem[]>([])
   const [isReady, setIsReady] = useState(false)

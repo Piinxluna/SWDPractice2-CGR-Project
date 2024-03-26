@@ -87,7 +87,7 @@ export default function CreateBooking({
       alert(
         `${title} booking successfully. Please refresh the profile page if your data is not updated`
       )
-      router.push('/bookings')
+      router.back()
     } else {
       alert('Please provide all required information')
     }
@@ -126,11 +126,15 @@ export default function CreateBooking({
         setTentSizeL(reserve.tentSize.slength)
         setTentSizeW(reserve.tentSize.swidth)
         setDate(reserve.startDate.split('T')[0])
+        setIsReady(true)
       }
       fetchData()
     } else {
       const fetchData = async () => {
-        if (!paramsCgid) return null
+        if (!paramsCgid) {
+          setIsReady(true)
+          return null
+        }
         setCgid(paramsCgid)
         const sites = (
           await getCampgroundSites(paramsCgid, 'limit=1000&sort=number')
@@ -142,16 +146,19 @@ export default function CreateBooking({
         )
         setZonesList(zones)
 
-        if (!paramsSid) return null
+        if (!paramsSid) {
+          setIsReady(true)
+          return null
+        }
         setSid(paramsSid)
         setZone(
           sites.find((element: CampgroundSiteItem) => element._id === paramsSid)
             .zone
         )
+        setIsReady(true)
       }
       fetchData()
     }
-    setIsReady(true)
   }, [])
 
   useEffect(() => {
@@ -180,7 +187,7 @@ export default function CreateBooking({
       <Card>
         <div className='pb-16'>
           <h1 className='text-4xl font-bold text-cgr-dark-green flex justify-center py-12'>
-            Create Booking
+            {title} Booking
           </h1>
           <div className='px-6'>
             <div className='text-lg gap-5 mb-8 flex flex-col mx-12'>

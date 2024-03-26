@@ -1,20 +1,34 @@
+'use client'
+
 import Link from 'next/link'
 
 import Card from '@/components/basic/card/Card'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { useSession } from 'next-auth/react'
 import getUser from '@/libs/users/getUser'
 import deleteUser from '@/libs/users/deleteUser'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import SuspenseUI from '@/components/basic/SuspenseUI'
 
-export default async function AdminViewUser({
-  params,
-}: {
-  params: { uid: string }
-}) {
-  const session = await getServerSession(authOptions)
-  if (!session || !session.user.token) return null
+export default function AdminViewUser({ params }: { params: { uid: string } }) {
+  const router = useRouter()
 
-  const user: UserItem = (await getUser(session.user?.token, params.uid)).data
+  const { data: session } = useSession()
+  if (!session || !session.user.token || session.user.role !== 'admin') {
+    router.replace('/')
+    return null
+  }
+
+  const [user, setUser] = useState<UserItem | null>(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setUser((await getUser(session.user?.token, params.uid)).data)
+    }
+    fetchData()
+  }, [])
+
+  if (!user) return <SuspenseUI />
 
   return (
     <main className='bg-white p-10 md:px-16 lg:px-36 xl:px-72 2xl:px-96 min-h-screen'>
@@ -30,11 +44,23 @@ export default async function AdminViewUser({
             <p className='md:col-span-2'>{user.tel}</p>
             <p className='font-medium'>Email : </p>
             <p className='md:col-span-2'>{user.email}</p>
+            <p className='font-medium'>Role : </p>
+            <p className='md:col-span-2'>{user.role}</p>
           </div>
           <div className='flex justify-end gap-4'>
             <Link href={`/admin/users/edit?uid=${params.uid}`}>
               <button className='cgr-btn-outline'>Edit</button>
             </Link>
+            <button
+              className='cgr-btn-red'
+              onClick={async () => {
+                if (confirm('Are you sure to delete this user?')) {
+                  await deleteUser(session.user.token, params.uid)
+                  router.back()
+                }
+              }}>
+              Delete
+            </button>
           </div>
         </div>
       </Card>

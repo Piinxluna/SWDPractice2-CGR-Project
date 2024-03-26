@@ -20,7 +20,6 @@ import SuspenseUI from '@/components/basic/SuspenseUI'
 import getProvinces from '@/libs/thaidatas/getProvinces'
 import getDistricts from '@/libs/thaidatas/getDistricts'
 import getSubDistricts from '@/libs/thaidatas/getSubDistricts'
-import axios from 'axios'
 
 export default function CreateCampground({
   params,
@@ -112,8 +111,7 @@ export default function CreateCampground({
       subdistrict &&
       district &&
       province &&
-      postalCode &&
-      tentForRent
+      postalCode
     ) {
       const address = {
         houseNumber: houseNum,

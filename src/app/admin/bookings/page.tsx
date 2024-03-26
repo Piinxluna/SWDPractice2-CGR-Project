@@ -1,16 +1,20 @@
 'use client'
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import SuspenseUI from '@/components/basic/SuspenseUI'
 import getReserves from '@/libs/bookings/getReserves'
-import { getServerSession } from 'next-auth'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { Suspense, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function BookingsTable() {
+  const router = useRouter()
+
   const { data: session } = useSession()
-  if (!session || !session.user.token) return null
+  if (!session || !session.user.token || session.user.role !== 'admin') {
+    router.replace('/')
+    return null
+  }
 
   const [booking, setBooking] = useState<MyReservesItem[]>([])
   const [isReady, setIsReady] = useState(false)
