@@ -11,7 +11,8 @@ export default function CampgroundCardHome({
   return (
     <Link
       href={`/campgrounds/view/${campground._id}`}
-      className='hover:scale-105 duration-300'>
+      className='hover:scale-105 duration-300'
+      data-testid='card'>
       <Card>
         <div className='flex flex-col'>
           {campground.pictures.length != 0 ? (
@@ -42,9 +43,11 @@ export default function CampgroundCardHome({
               <p className=''>Tel : {campground.tel}</p>
             </div>
             {/* facilities */}
-            <div className='flex flex-row gap-2 mt-4'>
+            <div className='flex flex-row gap-2 mt-4' data-testid='tags'>
               {campground.facilities.map((data) => (
-                <Tag size='sm'>{data}</Tag>
+                <Tag size='sm' key={data}>
+                  {data}
+                </Tag>
               ))}
             </div>
           </div>
