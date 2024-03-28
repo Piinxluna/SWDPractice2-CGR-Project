@@ -1,7 +1,5 @@
 import CampgroundCardHome from '@/components/basic/card/CampgroundCardHome'
 import { render, screen } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
-import exp from 'constants'
 
 describe('Campground card', () => {
   beforeEach(() => {
