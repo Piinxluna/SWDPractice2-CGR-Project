@@ -18,18 +18,22 @@ export default function Component({
 
   for (let day = 1; day <= beforeThisMonth; day++) {
     availability.push(
-      <div className='bg-transparent text-xs text-center w-5 h-5'></div>
+      <div
+        className='bg-transparent text-xs text-center w-5 h-5'
+        key={day * -1}></div>
     )
   }
 
   for (let day = 1; day <= totalDay; day++) {
     if (unavailableDates.includes(day)) {
       availability.push(
-        <div className='bg-cgr-red text-xs text-center w-5 h-5'></div>
+        <div className='bg-cgr-red text-xs text-center w-5 h-5' key={day}></div>
       )
     } else {
       availability.push(
-        <div className='bg-cgr-gray-40 text-xs text-center w-5 h-5 py-0.5 px-auto'>
+        <div
+          className='bg-cgr-gray-40 text-xs text-center w-5 h-5 py-0.5 px-auto'
+          key={day}>
           {day}
         </div>
       )
