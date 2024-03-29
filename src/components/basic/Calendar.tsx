@@ -45,7 +45,9 @@ export default function Component({
         </p>
       </div>
 
-      <div className='grid grid-cols-7 gap-2'>{availability}</div>
+      <div className='grid grid-cols-7 gap-2' data-testid='calendar'>
+        {availability}
+      </div>
     </div>
   )
 }

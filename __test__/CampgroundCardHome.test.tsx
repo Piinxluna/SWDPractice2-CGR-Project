@@ -1,32 +1,30 @@
 import CampgroundCardHome from '@/components/basic/card/CampgroundCardHome'
 import { render, screen } from '@testing-library/react'
 
+const mockData = {
+  _id: '123456789',
+  name: 'Sample campground',
+  tel: '012-345-6789',
+  address: {
+    houseNumber: '1',
+    lane: '2',
+    road: 'Sample road',
+    subDistrict: 'Sample sub district',
+    district: 'Sample district',
+    province: 'Sample province',
+    postalCode: '10000',
+    link: 'https://www.google.com/maps',
+  },
+  website: 'https://www.google.com/',
+  pictures: [],
+  facilities: ['Toilet', 'Wifi', 'Parking'],
+  tentForRent: false,
+  amount: 5,
+}
+
 describe('Campground card', () => {
   beforeEach(() => {
-    render(
-      <CampgroundCardHome
-        campground={{
-          _id: '123456789',
-          name: 'Sample campground',
-          tel: '012-345-6789',
-          address: {
-            houseNumber: '1',
-            lane: '2',
-            road: 'Sample road',
-            subDistrict: 'Sample sub district',
-            district: 'Sample district',
-            province: 'Sample province',
-            postalCode: '10000',
-            link: 'https://www.google.com/maps',
-          },
-          website: 'https://www.google.com/',
-          pictures: [],
-          facilities: ['Toilet', 'Wifi', 'Parking'],
-          tentForRent: false,
-          amount: 5,
-        }}
-      />
-    )
+    render(<CampgroundCardHome campground={mockData} />)
   })
 
   it('should have title', () => {
